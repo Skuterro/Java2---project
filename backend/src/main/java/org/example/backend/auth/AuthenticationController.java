@@ -1,6 +1,7 @@
 package org.example.backend.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend.user.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     public final AuthenticationService authenticationService;
+    private final UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authenticationService.register(request));
+        return authenticationService.validate(request);
     }
-
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){

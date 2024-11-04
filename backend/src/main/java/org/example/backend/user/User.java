@@ -24,11 +24,13 @@ public class User implements UserDetails {
 
 
     @Nonnull
+    @Column(unique = true)
     private String username;
     @Nonnull
-    private String password;
-    @Nonnull
+    @Column(unique = true)
     private String email;
+    @Nonnull
+    private String password;
     @Nonnull
     private String firstname;
     @Nonnull
