@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
-import { FaRegMessage } from "react-icons/fa6";
 import { FaDropbox } from "react-icons/fa6";
-import { FiBox } from "react-icons/fi";
-import { MdCreate } from "react-icons/md";
-import { ReactNode } from "react";
+import { IconType } from "react-icons";
 
 export const Navbar = () => {
 
@@ -20,14 +17,14 @@ export const Navbar = () => {
       <div className="flex items-center ml-5">
         <FaDropbox className="text-purple-500 mr-2 text-4xl"/>
         <div className="flex flex-col text-3xl">
-          <span className="text-white font-bold -mb-2">BLOW</span>
-          <span className="text-white text-sm tracking-wider">CASE</span>
+          <span className="select-none text-white font-bold -mb-2">BLOW</span>
+          <span className="select-none text-white text-sm tracking-wider">CASE</span>
         </div>
       </div>
       <ul className="bg-black flex justify-center items-center text-lg gap-[20vh] -ml-[13vh]">
-        <NavItem to="/" text="CREATE CASE"/>
-        <NavItem to="/" text="CASES"/>
-        <NavItem to="/" text="CONTACT"/>
+        <NavItem to="/" text="CREATE CASE" icon={FaDropbox} />
+        <NavItem to="/" text="CASES" icon={FaDropbox}/>
+        <NavItem to="/" text="CONTACT" icon={FaDropbox}/>
       </ul>
       <div className="flex mr-5">
         <button 
@@ -44,28 +41,21 @@ export const Navbar = () => {
 interface NavItemProps {
   to: string;
   text: string;
+  icon: IconType;
 }
 
-interface ListElementProps {
-  children : React.ReactNode;
-}
 
-export const ListElement = ({ children } : ListElementProps) => {
-  <li>
-
-  </li>
-}
-
-export const NavItem = ({to, text}: NavItemProps) => {
+export const NavItem = ({to, text, icon:Icon}: NavItemProps) => {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
         isActive
-        ? "px-2 text-white font-bold text-xl hover:text-purple-500 transition-colors duration-300 ease-in-out"
-        : "px-2 text-gray-600 hover:text-black transition-colors duration-500 ease-in-out"
+        ? "flex px-2 text-white font-bold text-xl hover:text-purple-500 transition-colors duration-300 ease-in-out"
+        : "flex px-2 text-gray-600 hover:text-black transition-colors duration-500 ease-in-out"
       }
     >
+      <Icon className="text-2xl"/>
       {text}
     </NavLink>
   );
