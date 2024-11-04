@@ -1,18 +1,29 @@
 package org.example.backend.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class RegisterRequest {
-    private String firstname;
-    private String lastname;
+    @NotBlank(message = "Email nie może być pusty.")
+    @Email(message = "Email jest niepoprawny.")
     private String email;
-    private String username;
+
+    @NotBlank(message = "Hasło nie może być puste.")
+    @Size(min = 8, max = 20, message = "Hasło musi mieć od 8 do 20 znaków.")
     private String password;
+
+    @NotBlank(message = "Nazwa użytkownika nie może być pusta.")
+    @Size(min = 3, max = 20, message = "Nazwa użytkownika musi mieć od 3 do 20 znaków.")
+    private String username;
+
+    @NotBlank(message = "Imię nie może być puste.")
+    private String firstname;
+
+    @NotBlank(message = "Nazwisko nie może być puste.")
+    private String lastname;
 }

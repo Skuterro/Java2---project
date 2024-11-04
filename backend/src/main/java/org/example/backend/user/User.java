@@ -24,10 +24,8 @@ public class User implements UserDetails {
 
 
     @Nonnull
-    @Column(unique = true)
     private String username;
     @Nonnull
-    @Column(unique = true)
     private String email;
     @Nonnull
     private String password;
