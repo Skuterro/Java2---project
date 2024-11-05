@@ -12,11 +12,11 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("");
+    navigate("/login");
   }
 
   return (
-    <nav className="bg-black w-full flex items-center justify-between h-[5vh]">
+    <nav className="bg-black w-full flex items-center justify-between h-[8vh] border-b-2 border-gray-500">
       <div className="flex items-center ml-5">
         <FaBoxOpen className="text-purple-500 mr-2 text-4xl"/>
         <div className="flex flex-col text-3xl">
@@ -24,10 +24,10 @@ export const Navbar = () => {
           <span className="select-none text-white text-sm tracking-wider">CASE</span>
         </div>
       </div>
-      <ul className="bg-black flex justify-center items-center text-lg gap-[20vh] -ml-[13vh]">
-        <NavItem to="/" text="CREATE CASE" icon={IoCreateOutline} />
-        <NavItem to="/" text="CASES" icon={FiBox}/>
-        <NavItem to="/" text="CONTACT" icon={FiMessageSquare}/>
+      <ul className="bg-black flex justify-center items-center text-lg gap-[20vh] -ml-[18vh]">
+        <NavItem to="/CreateCase" text="Create Case" icon={IoCreateOutline} />
+        <NavItem to="/" text="Cases" icon={FiBox}/>
+        <NavItem to="/Contact" text="Contact" icon={FiMessageSquare}/>
       </ul>
       <div className="flex mr-5">
         <button 
@@ -55,7 +55,7 @@ export const NavItem = ({to, text, icon:Icon}: NavItemProps) => {
       className={({ isActive }) =>
         isActive
         ? "flex items-center px-2 text-white font-bold text-xl hover:text-purple-500 transition-colors duration-300 ease-in-out"
-        : "flex px-2 text-gray-600 hover:text-black transition-colors duration-500 ease-in-out"
+        : "flex px-2 text-gray-600 hover:text-purple-500 transition-colors duration-500 ease-in-out"
       }
     >
       {text}

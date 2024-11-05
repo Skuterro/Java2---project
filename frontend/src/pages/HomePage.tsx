@@ -4,9 +4,9 @@ export const HomePage = () => {
 
   return(
     <Layout>
-      <div>
+      <section className="bg-black h-[80vh]">
 
-      </div>
+      </section>
     </Layout>
   );
 };
