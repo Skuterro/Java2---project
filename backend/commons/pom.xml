@@ -6,12 +6,5 @@
         <artifactId>backend</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>modules</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>user-module</module>
-        <module>authentication-module</module>
-        <module>exceptions-module</module>
-        <module>item-module</module>
-    </modules>
+    <artifactId>commons</artifactId>
 </project>
