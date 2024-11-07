@@ -3,15 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>pl.blowcase</groupId>
-        <artifactId>backend</artifactId>
+        <artifactId>modules</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>modules</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>user-module</module>
-        <module>authentication-module</module>
-        <module>exceptions-module</module>
-        <module>item-module</module>
-    </modules>
+    <artifactId>item-module</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>pl.blowcase</groupId>
+            <artifactId>commons</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
