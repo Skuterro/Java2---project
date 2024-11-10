@@ -21,18 +21,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private int id;
-
-
     @Nonnull
     private String username;
     @Nonnull
     private String email;
     @Nonnull
     private String password;
-    @Nonnull
-    private String firstname;
-    @Nonnull
-    private String lastname;
+    
+    private Float balance;
 
     @Enumerated(EnumType.STRING)
     private Role role;

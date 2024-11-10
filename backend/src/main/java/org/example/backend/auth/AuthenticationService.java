@@ -1,12 +1,4 @@
 package org.example.backend.auth;
-/*
-
-    PROBLEM TUTAJ POLEGA NA TYM ZE JA JAKIMS JEBANYM CUDEM WERYFUKUJE JEDNAK PO USERNAME NIE PO EMAIL TRZEBA TO ZMIENIC!!!!!! KURWA MAC
-
- */
-
-
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.config.JwtService;
 import org.example.backend.exceptions.UserAlreadyExistsException;
@@ -18,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +28,10 @@ public class AuthenticationService {
         }
 
         var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .balance(0f)
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
