@@ -1,15 +1,24 @@
 package org.example.backend.auth;
+import jakarta.annotation.Nonnull;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.config.JwtService;
+import org.example.backend.exceptions.TokenNotValidException;
 import org.example.backend.exceptions.UserAlreadyExistsException;
+import org.example.backend.exceptions.UserNotExistException;
 import org.example.backend.user.Role;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +27,36 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+
+
+    public AuthenticationResponse verify(@Nonnull HttpServletRequest request){
+        final String authHeader = request.getHeader("Authorization");
+        final String jwtToken;
+        final String username;
+
+        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+            return new AuthenticationResponse(null,null,null,null,"Brak tokenu.");
+        }
+
+        jwtToken = authHeader.substring(7);
+        username = jwtService.extractUsername(jwtToken);
+
+        if(username == null){
+            throw new TokenNotValidException("Błędny token.");
+        }
+
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+        if(!jwtService.isTokenValid(jwtToken, userDetails)) {
+            throw new TokenNotValidException("Błędny token.");
+        }
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotExistException("Użytkownik o podanej nazwie nie istnieje"));
+
+        return new AuthenticationResponse(jwtToken, user.getEmail(), username, user.getBalance(), null);
+    }
 
     public AuthenticationResponse register(RegisterRequest request) {
         if(userRepository.existsByEmail(request.getEmail())){
@@ -38,7 +77,10 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse
                 .builder()
+                .email(user.getEmail())
                 .token(jwtToken)
+                .username(user.getUsername())
+                .balance(user.getBalance())
                 .build();
     }
 

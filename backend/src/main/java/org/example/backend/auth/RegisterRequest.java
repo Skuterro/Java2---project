@@ -20,10 +20,4 @@ public class RegisterRequest {
     @NotBlank(message = "Nazwa użytkownika nie może być pusta.")
     @Size(min = 3, max = 20, message = "Nazwa użytkownika musi mieć od 3 do 20 znaków.")
     private String username;
-
-    @NotBlank(message = "Imię nie może być puste.")
-    private String firstname;
-
-    @NotBlank(message = "Nazwisko nie może być puste.")
-    private String lastname;
 }

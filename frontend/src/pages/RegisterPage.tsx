@@ -1,40 +1,71 @@
 import { Layout } from "../components/layout/Layout"
-import { Field, Form, Formik, ErrorMessage} from "formik";
+import { Field, Form, Formik} from "formik";
 import { FaRegEnvelope, FaRegUser } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useAuth } from "../providers/AuthProvider";
 import * as Yup from "yup";
+import Cookies from "js-cookie";
+import { User } from "../models/user";
+import { RegisterRequest, RegisterResponse } from "../models/apiTypes";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-interface RegisterUserForm {
-  username: string;
-  email: string;
-  password: string;
-}
 
 export const RegistePage = () => {
-  const {setLoggedUser} = useAuth();
+  const {loggedUser, setLoggedUser} = useAuth();
+  const navigate = useNavigate();
 
-  const handleLoginClick = async ({email, password, username}: RegisterUserForm) => {
+  useEffect(() => {
+    if(loggedUser != undefined && loggedUser.authenticated == true){
+      navigate("/");
+    }
+  },[loggedUser]);
+
+  const handleLoginClick = async ({email, password, username}: RegisterRequest) => {
     try{
-      const response = await axios.post(import.meta.env.VITE_REGISTER_API_URL, {
+      const response = await axios.post<RegisterResponse>(import.meta.env.VITE_REGISTER_API_URL, {
         username,
         email,
         password
       }, {
         withCredentials: true
       });
-      const user ={
-        id: response.data.userId,
+
+      Cookies.set("token", response.data.token, {expires: 1});
+
+      const user:User = {
         email: response.data.email,
-        username: response.data.name,
+        username: response.data.username,
         role: "user",
         balance: response.data.balance
       };
       setLoggedUser(user);
+      navigate("/");
     }
-    catch(e){
-      console.log(e)
+    catch(error){
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+  
+        if (axiosError.response) {
+          console.error("Błąd serwera:", axiosError.response.status, axiosError.response.data);
+          /*
+          {password: 'Hasło musi mieć od 8 do 20 znaków.', username: 'Nazwa użytkownika musi mieć od 3 do 20 znaków.'}
+          */
+          const errors:any = axiosError.response.data;
+          for (const key in errors) {
+            console.log(`${key}: ${errors[key]}`);
+            //toast.error(errors[key]);
+          }
+        } else if (axiosError.request) {
+          console.error("Brak odpowiedzi od serwera. Sprawdź połączenie.");
+        } else {
+          console.error("Wystąpił błąd:", axiosError.message);
+        }
+      } else {
+        console.error("Nieoczekiwany błąd:", error);
+      }
     }
   }
 
@@ -58,7 +89,7 @@ export const RegistePage = () => {
               Sign in!
             </a>            
           </div>
-          <Formik
+          <Formik <RegisterRequest>
           initialValues={{ username:'', email: '', password: '' }}
           onSubmit={handleLoginClick}
           validationSchema={validationSchema}
@@ -98,7 +129,7 @@ export const RegistePage = () => {
                 type="submit"
                 className="p-2 bg-purple-900 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors duration-300 ease-in-out"
               >
-                Login
+                Register
               </button>
             </div>
           </Form>

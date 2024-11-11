@@ -16,8 +16,20 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<AuthenticationResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-        AuthenticationResponse response = new AuthenticationResponse(null, e.getMessage());
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(UserNotExistException.class)
+    public ResponseEntity<AuthenticationResponse> handleUserNotExist(UserNotExistException e) {
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(TokenNotValidException.class)
+    public ResponseEntity<AuthenticationResponse> handleTokenNotValidException(TokenNotValidException e) {
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -33,10 +45,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
+    //    @ExceptionHandler(Exception.class)
     public ResponseEntity<AuthenticationResponse> handleException(Exception e) {
         e.printStackTrace();
-        AuthenticationResponse response = new AuthenticationResponse(null, "Wystąpił błąd podczas przetwarzania żądania.");
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  "Wystąpił błąd podczas przetwarzania żądania.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+
 }
