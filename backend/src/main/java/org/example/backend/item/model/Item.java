@@ -6,6 +6,6 @@ import lombok.Builder;
 public record Item(
         String id,
         String name,
-        Integer price
+        Double price
 ) {
 }

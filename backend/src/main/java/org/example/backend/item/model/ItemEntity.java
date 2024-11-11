@@ -2,6 +2,9 @@ package org.example.backend.item.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.backend.dropCase.model.CaseEntity;
+
+import java.util.Set;
 
 @Data
 @Entity
@@ -16,5 +19,8 @@ public class ItemEntity {
     private String name;
 
     @Column(nullable = false)
-    private Integer price;
+    private Double price;
+
+    @ManyToMany(mappedBy = "items")
+    Set<CaseEntity> cases;
 }
