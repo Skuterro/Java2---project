@@ -1,4 +1,4 @@
-package org.example.backend.item;
+package org.example.backend.item.model;
 
 import jakarta.validation.constraints.NotBlank;
 import org.example.backend.commons.ValidationMessageConst;

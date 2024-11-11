@@ -1,7 +1,11 @@
-package org.example.backend.item;
+package org.example.backend.item.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend.commons.ValidationMessageConst;
+import org.example.backend.item.mapper.ItemMapper;
+import org.example.backend.item.model.Item;
+import org.example.backend.item.model.ItemSaveForm;
+import org.example.backend.item.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
 @Service

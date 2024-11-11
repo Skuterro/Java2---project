@@ -1,6 +1,8 @@
-package org.example.backend.item;
+package org.example.backend.item.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend.item.mapper.ItemMapperJpa;
+import org.example.backend.item.model.Item;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor

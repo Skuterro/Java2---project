@@ -1,6 +1,9 @@
-package org.example.backend.item;
+package org.example.backend.item.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend.item.model.Item;
+import org.example.backend.item.model.ItemSaveForm;
+import org.example.backend.item.service.ItemService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
