@@ -5,6 +5,8 @@ import { GiPadlock } from "react-icons/gi";
 import axios from 'axios';
 import { useAuth } from "../providers/AuthProvider";
 import * as Yup from "yup";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface LoginUserForm {
   email: string;
@@ -12,7 +14,14 @@ interface LoginUserForm {
 }
 
 export const LoginPage = () => {
-  const {setLoggedUser} = useAuth();
+  const {loggedUser, setLoggedUser} = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(loggedUser != undefined && loggedUser.authenticated == true){
+      navigate("/");
+    }
+  },[loggedUser]);
 
   const handleLoginClick = async ({email, password}: LoginUserForm) => {
     const response = await axios.post("http://localhost...", {
