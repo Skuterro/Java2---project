@@ -32,10 +32,8 @@ public class ImageService {
     }
 
     public byte[] downloadImage(String id) {
-        System.out.println("kutas1: " + id);
         Optional<Image> dbImage = imageRepository.findById(id);
 
-        System.out.println("kutas2");
         return dbImage.get().getImageData();
     }
 }
