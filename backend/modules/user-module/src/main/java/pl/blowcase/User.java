@@ -19,10 +19,21 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private int id;
+<<<<<<< HEAD:backend/modules/user-module/src/main/java/pl/blowcase/User.java
 
     private String firstname;
 
     private String lastname;
+=======
+    @Nonnull
+    private String username;
+    @Nonnull
+    private String email;
+    @Nonnull
+    private String password;
+    
+    private Float balance;
+>>>>>>> 9c06ec8e95b8219887151a69ca15412be138383c:backend/src/main/java/org/example/backend/user/User.java
 
     private String email;
 
