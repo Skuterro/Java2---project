@@ -1,14 +1,21 @@
 package org.example.backend.item.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.backend.dropCase.model.CaseEntity;
+import org.example.backend.image.model.Image;
 
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "items")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemEntity {
 
     @Id
@@ -23,4 +30,8 @@ public class ItemEntity {
 
     @ManyToMany(mappedBy = "items")
     Set<CaseEntity> cases;
+
+    @ManyToOne
+    @JoinColumn(name = "imageId")
+    private Image image;
 }

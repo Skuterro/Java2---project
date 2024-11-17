@@ -9,5 +9,5 @@ import java.util.Optional;
 @Transactional
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
-    Optional<Image> findById(String id);
+    Optional<Image> findByImageId(String id);
 }

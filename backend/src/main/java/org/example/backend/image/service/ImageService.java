@@ -32,7 +32,7 @@ public class ImageService {
     }
 
     public byte[] downloadImage(String id) {
-        Optional<Image> dbImage = imageRepository.findById(id);
+        Optional<Image> dbImage = imageRepository.findByImageId(id);
 
         return dbImage.get().getImageData();
     }

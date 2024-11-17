@@ -26,6 +26,20 @@ export const AuthProvider = ({ children } : AuthProviderProps) => {
   const loadUser = async () => {
 
     const token = Cookies.get("token");
+
+    /* DO NAPRAWIENIA. POWODUJE BLAD GDY PODA SIE NULLOWY TOKEN */
+    if(token === undefined){
+      const user:User = {
+        email: '',
+        username: '',
+        role: 'guest',
+        balance: 0,
+        authenticated: false
+      }
+      setLoggedUser(user);
+      return;
+    }
+
     const response = await axios.get<User>(import.meta.env.VITE_VERIFY_API_URL, {
       headers: {
         Authorization: `Bearer ${token}`

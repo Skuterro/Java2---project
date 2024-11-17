@@ -25,6 +25,7 @@ const CaseCard = ({
     <li
       className="bg-black shadow-md rounded-lg cursor-pointer"
       onClick={onClick}
+      
     >
       {image && (
         <img 
@@ -33,10 +34,10 @@ const CaseCard = ({
           className=""
         />
       )}
-      <h3 className="text-lg font-semibold">
+      <h3 className="text-white text-lg font-semibold">
         {name}
       </h3>
-      <p>
+      <p className="text-white">
         {price}$
       </p>
     </li>
@@ -53,20 +54,18 @@ const CasesList = ({ children }: CasesListProps) => {
 }
 
 export const HomePage = () => {
-  const { loggedUser } = useAuth();
   const [cases, setCases] = useState<Case[]>([]);
 
   const handleFetchCases = async () => {
-    const response = await axios.get("...");
+    console.log(import.meta.env.VITE_CASES_API_URL)
+    const response = await axios.get(import.meta.env.VITE_CASES_API_URL);
+    console.log(response.data);
     setCases(response.data);
   }
 
   useEffect(() => {
     handleFetchCases();
-    if(loggedUser == undefined){
-      
-    }
-    console.log("User:", loggedUser);    
+   
   }, []);
 
   return(
@@ -78,7 +77,7 @@ export const HomePage = () => {
             {cases.map((dropCase) => (
               <CaseCard
                 name={dropCase.name}
-                image={dropCase.image}
+                image={dropCase.imageData}
                 price={dropCase.price}
                 onClick={() => {}}
               />

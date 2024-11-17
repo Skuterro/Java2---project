@@ -9,6 +9,7 @@ public record Case(
         String id,
         String name,
         Double price,
-        List<String> itemsIds
+        List<String> itemsIds,
+        byte[] imageData
 ) {
 }

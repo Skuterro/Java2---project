@@ -5,6 +5,8 @@ import org.example.backend.dropCase.mapper.CaseMapperJpa;
 import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseEntity;
 import org.example.backend.dropCase.model.CaseSaveForm;
+import org.example.backend.image.model.Image;
+import org.example.backend.image.repository.ImageRepository;
 import org.example.backend.item.model.ItemEntity;
 import org.example.backend.item.repository.ItemRepositoryJpa;
 import org.springframework.stereotype.Repository;
@@ -21,12 +23,18 @@ public class CaseRepositoryImpl implements CaseRepsitory{
 
     private final CaseMapperJpa caseMapperJpa;
 
+    private final ImageRepository imageRepositoryJpa;
+
     @Override
     public Case addCase(CaseSaveForm form) {
+
+        Image image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
+
         CaseEntity createdCase = CaseEntity.builder()
                 .name(form.name())
                 .price(0.0)
                 .items(mapItems(form.itemsIds()))
+                .image(image)
                 .build();
         return caseMapperJpa.toCase(caseRepositoryJpa.save(createdCase));
     }

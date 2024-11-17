@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.backend.image.model.Image;
 import org.example.backend.item.model.ItemEntity;
 
 import java.util.List;
@@ -33,4 +34,8 @@ public class CaseEntity {
             joinColumns = @JoinColumn(name = "case_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     List<ItemEntity> items;
+
+    @ManyToOne
+    @JoinColumn(name = "imageId")
+    private Image image;
 }

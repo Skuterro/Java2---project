@@ -16,7 +16,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private String imageId;
     private String name;
     private String type;
 

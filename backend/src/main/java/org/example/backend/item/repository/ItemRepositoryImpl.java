@@ -1,8 +1,12 @@
 package org.example.backend.item.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend.image.model.Image;
+import org.example.backend.image.repository.ImageRepository;
 import org.example.backend.item.mapper.ItemMapperJpa;
 import org.example.backend.item.model.Item;
+import org.example.backend.item.model.ItemEntity;
+import org.example.backend.item.model.ItemSaveForm;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +20,18 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     private final ItemMapperJpa itemMapperJpa;
 
+    private final ImageRepository imageRepositoryJpa;
+
     @Override
-    public Item addItem(Item item) {
-        return itemMapperJpa.toItem(itemRepositoryJpa.save(itemMapperJpa.toEntity(item)));
+    public Item addItem(ItemSaveForm form) {
+        Image image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
+
+        ItemEntity createdItem = ItemEntity.builder()
+                .name(form.name())
+                .price(0.0)
+                .image(image)
+                .build();
+        return itemMapperJpa.toItem(itemRepositoryJpa.save(createdItem));
     }
 
     @Override
