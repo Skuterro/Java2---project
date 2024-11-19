@@ -1,8 +1,6 @@
 package org.example.backend.item.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.example.backend.image.model.Image;
-import org.example.backend.image.repository.ImageRepository;
 import org.example.backend.item.mapper.ItemMapperJpa;
 import org.example.backend.item.model.Item;
 import org.example.backend.item.model.ItemEntity;
@@ -20,13 +18,13 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     private final ItemMapperJpa itemMapperJpa;
 
-    private final ImageRepository imageRepositoryJpa;
-
     @Override
     public Item addItem(ItemSaveForm form) {
         ItemEntity createdItem = ItemEntity.builder()
                 .name(form.name())
-                .price(0.0)
+                .price(form.price())
+                .category(form.category())
+                .rarity(form.rarity())
                 .imageURL(form.imageURL())
                 .build();
         return itemMapperJpa.toItem(itemRepositoryJpa.save(createdItem));

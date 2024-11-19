@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.backend.dropCase.model.CaseEntity;
-import org.example.backend.image.model.Image;
 
 import java.util.Set;
 
@@ -27,6 +26,12 @@ public class ItemEntity {
 
     @Column(nullable = false)
     private Double price;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
+    private String rarity;
 
     @ManyToMany(mappedBy = "items")
     Set<CaseEntity> cases;

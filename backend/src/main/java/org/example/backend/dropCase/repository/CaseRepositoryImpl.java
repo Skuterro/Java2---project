@@ -5,7 +5,7 @@ import org.example.backend.dropCase.mapper.CaseMapperJpa;
 import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseEntity;
 import org.example.backend.dropCase.model.CaseSaveForm;
-import org.example.backend.image.model.Image;
+import org.example.backend.image.model.ImageEntity;
 import org.example.backend.image.repository.ImageRepository;
 import org.example.backend.item.model.ItemEntity;
 import org.example.backend.item.repository.ItemRepositoryJpa;
@@ -28,7 +28,7 @@ public class CaseRepositoryImpl implements CaseRepsitory{
     @Override
     public Case addCase(CaseSaveForm form) {
 
-        Image image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
+        ImageEntity image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
 
         CaseEntity createdCase = CaseEntity.builder()
                 .name(form.name())

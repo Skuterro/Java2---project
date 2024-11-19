@@ -7,6 +7,8 @@ public record Item(
         String id,
         String name,
         Double price,
+        String category,
+        String rarity,
         String imageURL
 ) {
 }
