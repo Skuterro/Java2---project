@@ -24,12 +24,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Item addItem(ItemSaveForm form) {
-        Image image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
-
         ItemEntity createdItem = ItemEntity.builder()
                 .name(form.name())
                 .price(0.0)
-                .image(image)
+                .imageURL(form.imageURL())
                 .build();
         return itemMapperJpa.toItem(itemRepositoryJpa.save(createdItem));
     }

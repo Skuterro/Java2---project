@@ -7,6 +7,6 @@ public record Item(
         String id,
         String name,
         Double price,
-        byte[] imageData
+        String imageURL
 ) {
 }

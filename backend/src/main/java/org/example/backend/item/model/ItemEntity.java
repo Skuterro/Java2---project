@@ -31,7 +31,6 @@ public class ItemEntity {
     @ManyToMany(mappedBy = "items")
     Set<CaseEntity> cases;
 
-    @ManyToOne
-    @JoinColumn(name = "imageId")
-    private Image image;
+
+    private String imageURL;
 }
