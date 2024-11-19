@@ -8,4 +8,5 @@ public class ValidationMessageConst {
     public static final String NO_RARITY = "Item rarity is required and cannot be empty!";
     public static final String NO_ITEMS = "Items list is required and cannot be empty!";
     public static final String NO_IMAGE = "Image is required and cannot be empty!";
+    public static final String NO_CASE = "Case does not exist!";
 }

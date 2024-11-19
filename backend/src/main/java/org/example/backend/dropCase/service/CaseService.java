@@ -10,4 +10,5 @@ import java.util.List;
 public interface CaseService {
     Case addCase(@Valid CaseSaveForm form);
     List<Case> getAllCases(Pageable pageable);
+    Case getCaseById(String id);
 }

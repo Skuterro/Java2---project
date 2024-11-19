@@ -1,6 +1,7 @@
 package org.example.backend.dropCase.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backend.commons.ValidationMessageConst;
 import org.example.backend.dropCase.mapper.CaseMapper;
 import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseSaveForm;
@@ -27,5 +28,13 @@ public class CaseServiceImpl implements CaseService{
     @Override
     public List<Case> getAllCases(Pageable pageable) {
         return caseRepsitory.getAllCases(pageable);
+    }
+
+    @Override
+    public Case getCaseById(String id) {
+        if (!caseRepsitory.existsById(id)) {
+            throw new RuntimeException(ValidationMessageConst.NO_CASE);
+        }
+        return caseRepsitory.getCaseById(id);
     }
 }
