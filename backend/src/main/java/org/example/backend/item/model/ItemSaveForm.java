@@ -7,7 +7,9 @@ import org.example.backend.commons.ValidationMessageConst;
 public record ItemSaveForm (
         @NotBlank(message = ValidationMessageConst.NO_NAME) String name,
         @NotBlank(message = ValidationMessageConst.NO_PRICE) Double price,
-        @NotBlank(message = ValidationMessageConst.NO_IMAGE) String imageURL
+        @NotEmpty(message = ValidationMessageConst.NO_IMAGE) String imageId,
+        @NotEmpty(message = ValidationMessageConst.NO_RARITY) String rarity,
+        @NotEmpty(message = ValidationMessageConst.NO_DESCRIPTION) String description
 ){
 
 }

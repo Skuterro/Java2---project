@@ -7,6 +7,7 @@ import org.apache.commons.lang3.exception.ContextedRuntimeException;
 import org.example.backend.image.model.Image;
 import org.example.backend.image.repository.ImageRepository;
 import org.example.backend.image.utils.ImageUtils;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +28,8 @@ public class ImageService {
                 .imageData(imageFile.getBytes())
                 .build();
 
-        imageRepository.save(imageToSave);
-        return "file uploaded successfully : " + imageFile.getOriginalFilename();
+        Image savedImage = imageRepository.save(imageToSave);
+        return savedImage.getImageId();
     }
 
     public byte[] downloadImage(String id) {

@@ -6,7 +6,8 @@ import lombok.Builder;
 public record Item(
         String id,
         String name,
+        String rarity,
         Double price,
-        String imageURL
+        byte[] imageData
 ) {
 }

@@ -12,6 +12,8 @@ import java.util.List;
 @Component
 @Mapper(componentModel = "spring")
 public interface ItemMapperJpa {
+    @Mapping(target = "imageData", source = "image.imageData")
+
     Item toItem(ItemEntity itemEntity);
     List<Item> toItemList(Page<ItemEntity> itemEntities);
 }

@@ -26,11 +26,15 @@ public class ItemEntity {
     private String name;
 
     @Column(nullable = false)
+    private String rarity;
+
+    @Column(nullable = false)
     private Double price;
 
     @ManyToMany(mappedBy = "items")
     Set<CaseEntity> cases;
 
-
-    private String imageURL;
+    @ManyToOne
+    @JoinColumn(name = "imageId")
+    private Image image;
 }
