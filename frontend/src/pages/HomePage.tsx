@@ -24,7 +24,8 @@ const CaseCard = ({
 
   return (
     <li
-      className="bg-black shadow-md rounded-lg cursor-pointer"
+      className="bg-gradient-to-t from-gray-800 to-black rounded-3xl cursor-pointer flex items-center flex-col 
+                 transform transition-transform duration-300 hover:scale-95 active:scale-90"
       onClick={onClick}
       
     >
@@ -73,7 +74,7 @@ export const HomePage = () => {
     <Layout>
       <Wrapper>
         <section >
-          <div className="bg-black h-auto">
+          <div className="bg-black h-auto p-10">
             <CasesList>
               {cases.length === 0 && (<span>Something went wrong...</span>)}
               {cases.map((dropCase) => (
