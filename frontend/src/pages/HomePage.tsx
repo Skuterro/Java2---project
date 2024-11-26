@@ -3,6 +3,7 @@ import { Layout } from "../components/layout/Layout";
 import { useAuth } from "../providers/AuthProvider";
 import { Case } from "../models/case";
 import axios from "axios";
+import { Wrapper } from "../components/layout/Wrapper";
 
 interface CasesListProps {
   children : React.ReactNode;
@@ -47,7 +48,7 @@ const CaseCard = ({
 const CasesList = ({ children }: CasesListProps) => {
 
   return(
-    <ul className="grid grid-cols-3 gap-4 list-none p-0">
+    <ul className="grid grid-cols-3 gap-4 list-none w-auto">
       {children}
     </ul>
   )
@@ -70,21 +71,23 @@ export const HomePage = () => {
 
   return(
     <Layout>
-      <section className="bg-black h-[80vh]">
-        <div>
-          <CasesList>
-            {cases.length === 0 && (<span>Something went wrong...</span>)}
-            {cases.map((dropCase) => (
-              <CaseCard
-                name={dropCase.name}
-                image={dropCase.imageData}
-                price={dropCase.price}
-                onClick={() => {}}
-              />
-            ))}
-          </CasesList>
-        </div>
-      </section>
+      <Wrapper>
+        <section >
+          <div className="bg-black h-auto">
+            <CasesList>
+              {cases.length === 0 && (<span>Something went wrong...</span>)}
+              {cases.map((dropCase) => (
+                <CaseCard
+                  name={dropCase.name}
+                  image={dropCase.imageData}
+                  price={dropCase.price}
+                  onClick={() => {}}
+                />
+              ))}
+            </CasesList>
+          </div>
+        </section>
+      </Wrapper>
     </Layout>
   );
 };
