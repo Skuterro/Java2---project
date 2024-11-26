@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 
@@ -25,13 +27,16 @@ public class ImageController {
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
 
         if (file.isEmpty()) throw new FileNotFoundException("You should provide a valid file");
-        imageService.uploadImage(file);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        String imageId = imageService.uploadImage(file);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("imageId", imageId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> downloadImage(@PathVariable String id) {
-        System.out.println("kutong: " + id);
         byte[] imageData = imageService.downloadImage(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(IMAGE_PNG_VALUE))
