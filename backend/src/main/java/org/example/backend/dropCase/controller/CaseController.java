@@ -28,4 +28,7 @@ public class CaseController {
         return caseService.getAllCases(pageable);
     }
 
+    @GetMapping("/{id}")
+    public Case getCaseById(@PathVariable String id){ return caseService.getCaseById(id); }
+
 }

@@ -28,4 +28,7 @@ public class CaseServiceImpl implements CaseService{
     public List<Case> getAllCases(Pageable pageable) {
         return caseRepsitory.getAllCases(pageable);
     }
+
+    @Override
+    public Case getCaseById(String id) {return caseRepsitory.getCaseById(id);}
 }

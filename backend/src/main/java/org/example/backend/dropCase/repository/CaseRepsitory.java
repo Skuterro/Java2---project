@@ -9,4 +9,5 @@ import java.util.List;
 public interface CaseRepsitory {
     Case addCase(CaseSaveForm form);
     List<Case> getAllCases(Pageable pageable);
+    Case getCaseById(String id);
 }

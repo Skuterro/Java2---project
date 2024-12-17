@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Layout } from "../components/layout/Layout";
-import { useAuth } from "../providers/AuthProvider";
 import { Case } from "../models/case";
 import axios from "axios";
 import { Wrapper } from "../components/layout/Wrapper";
+import { useNavigate } from "react-router-dom";
 
 interface CasesListProps {
   children : React.ReactNode;
@@ -58,6 +58,8 @@ const CasesList = ({ children }: CasesListProps) => {
 export const HomePage = () => {
   const [cases, setCases] = useState<Case[]>([]);
 
+  const navigate = useNavigate();
+
   const handleFetchCases = async () => {
     console.log(import.meta.env.VITE_CASES_API_URL)
     const response = await axios.get(import.meta.env.VITE_CASES_API_URL);
@@ -82,7 +84,7 @@ export const HomePage = () => {
                   name={dropCase.name}
                   image={dropCase.imageData}
                   price={dropCase.price}
-                  onClick={() => {}}
+                  onClick={() => navigate(`/case/${dropCase.id}`)}
                 />
               ))}
             </CasesList>

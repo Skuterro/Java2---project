@@ -1,5 +1,6 @@
 package org.example.backend.item.service;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.commons.ValidationMessageConst;
 import org.example.backend.item.model.Item;
@@ -35,4 +36,5 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAllItems(Pageable pageable) {
         return itemRepository.getAllItems(pageable);
     }
+
 }
