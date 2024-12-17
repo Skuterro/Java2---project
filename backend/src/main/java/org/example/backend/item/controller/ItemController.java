@@ -6,6 +6,8 @@ import org.example.backend.item.model.ItemSaveForm;
 import org.example.backend.item.service.ItemService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/items")
@@ -24,4 +26,5 @@ public class ItemController {
     public Item getById(@PathVariable String id){
         return itemService.getById(id);
     }
+
 }

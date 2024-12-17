@@ -44,6 +44,11 @@ public class CaseRepositoryImpl implements CaseRepsitory{
         return caseMapperJpa.toCaseList(caseRepositoryJpa.findAll(pageable));
     }
 
+    @Override
+    public Case getCaseById(String id) {
+        return caseMapperJpa.toCase(caseRepositoryJpa.findById(id).orElse(null));
+    }
+
     private List<ItemEntity> mapItems(List<String>itemsIds){
         return itemsIds.stream()
                 .map(id -> itemRepositoryJpa.findById(id).orElse(null))

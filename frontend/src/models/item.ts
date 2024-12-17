@@ -1,9 +1,6 @@
-import { Item } from "./item";
-
-export interface Case{
+export interface Item{
     id: number;
     name: string;
     price: number;
-    itemsList: Item[];
     imageData?: string | null;
 }

@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
-import { RegistePage } from "../pages/RegisterPage";
-import { ToastContainer } from "react-toastify";
+import { RegisterPage } from "../pages/RegisterPage";
+import { CasePage } from "../pages/CasePage";
 
 export const Routing = () => {
   return (
@@ -11,7 +11,8 @@ export const Routing = () => {
 			<Routes>
         <Route path="/" Component={HomePage}/>
         <Route path="/login" Component={LoginPage}/>
-        <Route path="/register" Component={RegistePage}/>
+        <Route path="/register" Component={RegisterPage}/>
+        <Route path="/case/:caseId" Component={CasePage}/>
       </Routes>
 
 		</Router>

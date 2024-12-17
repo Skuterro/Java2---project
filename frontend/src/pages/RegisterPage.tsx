@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 
-export const RegistePage = () => {
+export const RegisterPage = () => {
   const {loggedUser, setLoggedUser} = useAuth();
   const navigate = useNavigate();
 
