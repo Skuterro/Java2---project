@@ -11,10 +11,13 @@ import { RegisterRequest, RegisterResponse } from "../models/apiTypes";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 
 export const RegistePage = () => {
   const {loggedUser, setLoggedUser} = useAuth();
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,6 +28,7 @@ export const RegistePage = () => {
 
   const handleLoginClick = async ({email, password, username}: RegisterRequest) => {
     try{
+      setLoading(true);
       const response = await axios.post<RegisterResponse>(import.meta.env.VITE_REGISTER_API_URL, {
         username,
         email,
@@ -67,6 +71,8 @@ export const RegistePage = () => {
         console.error("Nieoczekiwany błąd:", error);
       }
     }
+
+    setLoading(false);
   }
 
   const validationSchema = Yup.object().shape({
@@ -95,7 +101,11 @@ export const RegistePage = () => {
           validationSchema={validationSchema}
         >
           <Form>
-            <div className="flex flex-col gap-1">
+            {
+              loading ? 
+                <div className="text-white">Loading...</div>
+              :
+              <div className="flex flex-col gap-1">
               <div className="flex items-center bg-gray-800 rounded-xl px-2 mb-2 w-full">
                 <FaRegUser className="mr-2 ml-1 text-white "  />
                 <Field
@@ -132,6 +142,8 @@ export const RegistePage = () => {
                 Register
               </button>
             </div>
+            }
+           
           </Form>
         </Formik>
         </div>
