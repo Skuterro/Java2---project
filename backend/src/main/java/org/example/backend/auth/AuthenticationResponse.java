@@ -15,4 +15,5 @@ public class AuthenticationResponse {
     private String username;
     private Float balance;
     private String message;
+    private Integer status;
 }
