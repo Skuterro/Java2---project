@@ -48,7 +48,7 @@ export const LoginPage = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.error("Błąd serwera:", error);
+        console.error("Błąd serwera:", error.response.data.message);
         //toast.error("Błąd serwera");
       });
   };
