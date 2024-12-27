@@ -5,14 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
 import org.example.backend.config.JwtService;
 import org.example.backend.email.EmailService;
-import org.example.backend.exceptions.TokenNotValidException;
-import org.example.backend.exceptions.UserAlreadyExistsException;
-import org.example.backend.exceptions.UserNotEnabledException;
-import org.example.backend.exceptions.UserNotExistException;
+import org.example.backend.exceptions.*;
 import org.example.backend.user.Role;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -93,12 +92,21 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        }
+        catch (DisabledException exception){
+            throw new UserNotEnabledException("User is not enabled.");
+        }
+        catch(BadCredentialsException exception){
+            throw new UsernameOrPasswordNotValidException("Username or password is incorrect.");
+        }
+
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         var jwtToken = jwtService.generateToken(user);
 

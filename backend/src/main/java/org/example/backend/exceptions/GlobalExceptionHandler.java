@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+    @ExceptionHandler(UsernameOrPasswordNotValidException.class)
+    public ResponseEntity<AuthenticationResponse> handleUserAlreadyExistsException(UsernameOrPasswordNotValidException e) {
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
     @ExceptionHandler(UserNotExistException.class)
     public ResponseEntity<AuthenticationResponse> handleUserNotExist(UserNotExistException e) {
         AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  e.getMessage(), 400);
