@@ -6,9 +6,12 @@ import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseSaveForm;
 
 import org.example.backend.dropCase.repository.CaseRepsitory;
+import org.example.backend.item.model.Item;
+import org.example.backend.item.repository.ItemRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +19,7 @@ import java.util.List;
 public class CaseServiceImpl implements CaseService{
 
     private final CaseRepsitory caseRepsitory;
-
+    private final ItemRepository itemRepository;
     private final CaseMapper caseMapper;
 
     @Override
@@ -31,4 +34,9 @@ public class CaseServiceImpl implements CaseService{
 
     @Override
     public Case getCaseById(String id) {return caseRepsitory.getCaseById(id);}
+
+    @Override
+    public List<Item> getCaseItemsByCaseId(String caseId){
+        return caseRepsitory.findItemsByCaseId(caseId);
+    }
 }
