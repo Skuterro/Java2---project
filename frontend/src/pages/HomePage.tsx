@@ -61,9 +61,7 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   const handleFetchCases = async () => {
-    console.log(import.meta.env.VITE_CASES_API_URL)
     const response = await axios.get(import.meta.env.VITE_CASES_API_URL);
-    console.log(response.data);
     setCases(response.data);
   }
 
@@ -76,7 +74,7 @@ export const HomePage = () => {
     <Layout>
       <Wrapper>
         <section >
-          <div className="bg-black h-auto p-10">
+          <div className="bg-black p-10">
             <CasesList>
               {cases.length === 0 && (<span>Something went wrong...</span>)}
               {cases.map((dropCase) => (

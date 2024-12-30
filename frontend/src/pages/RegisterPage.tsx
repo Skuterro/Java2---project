@@ -10,7 +10,6 @@ import { User } from "../models/user";
 import { RegisterRequest, RegisterResponse } from "../models/apiTypes";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { useState } from "react";
 
 
@@ -84,7 +83,7 @@ export const RegisterPage = () => {
   return(
     <Layout>
       <section className="bg-black h-[80vh] flex items-center justify-center">
-        <div className="bg-gradient-to-t from-gray-900 to-gray-800 flex flex-col items-center gap-8 shadow-lg rounded-xl p-12">
+        <div className="bg-gradient-to-t from-gray-900 to-gray-800 flex flex-col items-center gap-8 shadow-lg rounded-xl p-14">
           <h2 className="text-white font-bold text-2xl">Welcome!</h2>
           <div className="flex">
             <p className="text-white mr-2">You have account?</p>
@@ -137,7 +136,7 @@ export const RegisterPage = () => {
               </div>
               <button
                 type="submit"
-                className="p-2 bg-purple-900 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors duration-300 ease-in-out"
+                className="p-2 bg-purple-900 text-white border-2 border-purple-500 font-bold rounded-xl hover:bg-purple-500 transition-colors duration-300 ease-in-out"
               >
                 Register
               </button>
