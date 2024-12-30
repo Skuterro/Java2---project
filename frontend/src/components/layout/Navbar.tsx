@@ -12,7 +12,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/login");
+    navigate("/userProfile");
   }
 
   return (

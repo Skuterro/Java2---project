@@ -49,7 +49,6 @@ export const LoginPage = () => {
       })
       .catch((error) => {
         console.error("Błąd serwera:", error.response.data.message);
-        //toast.error("Błąd serwera");
       });
   };
 
@@ -99,7 +98,7 @@ export const LoginPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="p-2 bg-purple-900 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors duration-300 ease-in-out"
+                  className="p-2 bg-purple-900 border-2 border-purple-500 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors duration-300 ease-in-out"
                 >
                   Login
                 </button>
