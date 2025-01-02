@@ -36,6 +36,12 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    public ItemEntity findById(String itemId) {
+        return itemRepositoryJpa.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono przedmiotu o ID: " + itemId));
+    }
+
+    @Override
     public Item getById(String id) {
         return itemMapperJpa.toItem(itemRepositoryJpa.findById(id).get());
     }

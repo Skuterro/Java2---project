@@ -31,10 +31,10 @@ public class CaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "case_items",
-            joinColumns = @JoinColumn(name = "case_id"),
+            name = "user_items",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
-    List<ItemEntity> items;
+    private List<ItemEntity> items;
 
     @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CaseItemChance> itemChances;

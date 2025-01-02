@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.backend.dropCase.model.CaseEntity;
 import org.example.backend.image.model.Image;
+import org.example.backend.user.User;
 
 import java.util.Set;
 
@@ -33,6 +34,9 @@ public class ItemEntity {
 
     @ManyToMany(mappedBy = "items")
     Set<CaseEntity> cases;
+
+    @ManyToMany(mappedBy = "items")
+    Set<User> users;
 
     @ManyToOne
     @JoinColumn(name = "imageId")

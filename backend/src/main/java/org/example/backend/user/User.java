@@ -4,6 +4,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.exceptions.UserNotEnabledException;
+import org.example.backend.item.model.Item;
+import org.example.backend.item.model.ItemEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +38,13 @@ public class User implements UserDetails {
 
     private String confirmationToken;
     private boolean enabled = false;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_items",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    List<ItemEntity> items;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

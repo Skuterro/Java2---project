@@ -1,9 +1,12 @@
 package org.example.backend.dropCase.controller;
 
+import jakarta.annotation.Nonnull;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseSaveForm;
 import org.example.backend.dropCase.service.CaseService;
+import org.example.backend.exceptions.TokenNotValidException;
 import org.example.backend.item.model.Item;
 import org.example.backend.item.service.ItemService;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +43,8 @@ public class CaseController {
     }
 
     @GetMapping("/{id}/open")
-    public Item OpenCaseById(@PathVariable String id){
-        return caseService.openCase(id);
+    public Item OpenCaseById(@PathVariable String id,
+                             @Nonnull HttpServletRequest request){
+        return caseService.openCase(id, request);
     }
 }
