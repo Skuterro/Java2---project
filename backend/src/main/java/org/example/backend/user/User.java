@@ -43,8 +43,9 @@ public class User implements UserDetails {
     @JoinTable(
             name = "user_items",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
-    List<ItemEntity> items;
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private List<ItemEntity> items;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

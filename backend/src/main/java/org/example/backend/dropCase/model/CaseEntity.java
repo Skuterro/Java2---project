@@ -31,9 +31,10 @@ public class CaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "user_items",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
+            name = "case_items",
+            joinColumns = @JoinColumn(name = "case_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     private List<ItemEntity> items;
 
     @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true)
