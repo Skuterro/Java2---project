@@ -9,6 +9,7 @@ import java.util.List;
 public record CaseSaveForm(
     @NotBlank(message = ValidationMessageConst.NO_NAME) String name,
     @NotEmpty(message = ValidationMessageConst.NO_ITEMS) List<String> itemsIds,
+    @NotEmpty(message = ValidationMessageConst.NO_ITEMS) List<Float> itemProb,
     @NotEmpty(message = ValidationMessageConst.NO_IMAGE) String imageId
 ) {
 }

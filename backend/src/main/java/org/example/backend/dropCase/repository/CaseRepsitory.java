@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CaseRepsitory {
-    Case addCase(CaseSaveForm form);
+    Case addCase(CaseSaveForm form, Double casePrice);
     List<Case> getAllCases(Pageable pageable);
     Case getCaseById(String id);
 
