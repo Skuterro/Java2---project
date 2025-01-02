@@ -30,13 +30,13 @@ public class CaseRepositoryImpl implements CaseRepsitory{
     private final ItemMapperJpa itemMapperJpa;
 
     @Override
-    public Case addCase(CaseSaveForm form) {
+    public Case addCase(CaseSaveForm form, Double casePrice) {
 
         Image image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
 
         CaseEntity createdCase = CaseEntity.builder()
                 .name(form.name())
-                .price(0.0)
+                .price(casePrice)
                 .items(mapItems(form.itemsIds()))
                 .image(image)
                 .build();

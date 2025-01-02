@@ -7,6 +7,7 @@ import org.example.backend.dropCase.service.CaseService;
 import org.example.backend.item.model.Item;
 import org.example.backend.item.service.ItemService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CaseController {
     private final CaseService caseService;
 
     @PostMapping
-    public Case addCase(@RequestBody CaseSaveForm form){
+    public ResponseEntity<String> addCase(@RequestBody CaseSaveForm form){
         return caseService.addCase(form);
     }
 
@@ -36,5 +37,10 @@ public class CaseController {
     @GetMapping("/{id}/items")
     public List<Item> getCaseItemsByCaseId(@PathVariable String id){
         return caseService.getCaseItemsByCaseId(id);
+    }
+
+    @GetMapping("/{id}/open")
+    public Item OpenCaseById(@PathVariable String id){
+        return caseService.openCase(id);
     }
 }

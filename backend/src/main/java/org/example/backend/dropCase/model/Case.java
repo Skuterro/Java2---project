@@ -10,6 +10,7 @@ public record Case(
         String name,
         Double price,
         List<String> itemsIds,
+        List<Float> itemsProb,//DLA KAZDEGO ITEMU POD TYM SAMYM INDEXEM PRAWODPODOBIENSTWO NP. 0.5 CZYLI 50% na np. kose
         byte[] imageData
 ) {
 }

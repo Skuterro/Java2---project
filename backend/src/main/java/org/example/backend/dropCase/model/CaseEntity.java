@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.backend.caseItemProb.model.CaseItemChance;
 import org.example.backend.image.model.Image;
 import org.example.backend.item.model.ItemEntity;
 
@@ -34,6 +35,9 @@ public class CaseEntity {
             joinColumns = @JoinColumn(name = "case_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     List<ItemEntity> items;
+
+    @OneToMany(mappedBy = "caseEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CaseItemChance> itemChances;
 
     @ManyToOne
     @JoinColumn(name = "imageId")

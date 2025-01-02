@@ -28,7 +28,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         ItemEntity createdItem = ItemEntity.builder()
                 .name(form.name())
-                .price(0.0)
+                .price(form.price())
                 .image(image)
                 .rarity(form.rarity())
                 .build();
