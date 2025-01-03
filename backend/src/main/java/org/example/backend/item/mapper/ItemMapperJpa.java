@@ -15,5 +15,7 @@ public interface ItemMapperJpa {
     @Mapping(target = "imageData", source = "image.imageData")
 
     Item toItem(ItemEntity itemEntity);
+    ItemEntity toItemEntity(Item item);
     List<Item> toItemList(Page<ItemEntity> itemEntities);
+
 }

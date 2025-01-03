@@ -5,20 +5,47 @@ import profile_img from "../images/Bez tytułu.png"
 import { useState, useEffect } from "react";
 import { Item } from "../models/item";
 import axios from "axios";
-import { li, ul } from "framer-motion/client";
+import Cookies from "js-cookie";
+import { motion } from "framer-motion";
+import { useUserBalance } from "../providers/UserBalanceProvider";
 
 export const UserProfile = () => {
   const {loggedUser, handleLogout} = useAuth();
+  const {userBalance, setUserBalance} = useUserBalance();
   const [userItems, setUserItems] = useState<Item[]>([]);
-  
-  const handleFetchItems = async() => {
-    const response = await axios.get("");
+  const token = Cookies.get("token");
+
+  const handleFetchItems = async() => {   
+    const response = await axios.get("http://localhost:8080/user/items", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  });
     setUserItems(response.data);
   }
 
-    useEffect(() => {
-      handleFetchItems();
-    }, []);
+  const handleSellItem = async(ID: string) => {
+    await axios.get(`http://localhost:8080/user/sell/${ID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i : number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1, 
+      },
+    }),
+  };
+
+  useEffect(() => {
+    handleFetchItems();
+  }, []);
 
   return(
     <Layout>
@@ -54,9 +81,36 @@ export const UserProfile = () => {
           </div>
           <div className="bg-gradient-to-t from-gray-900 to-gray-800 w-full flex flex-col rounded-3xl ">
             <p className="text-gray-300 font-bold p-4">YOUR RECENT DROPS:</p>
-            <div className="grid grid-cols-7 gap-4 list-none w-full">
-              {userItems.length === 0 && (<span>You have no items</span>)}
-
+            <div className="grid grid-cols-7 gap-4 list-none w-full p-2">
+              {userItems.length === 0 && (<span></span>)}
+              {userItems.map((item, index) => (
+                <motion.li
+                  key={item.id}
+                  className="bg-gradient-to-t from-gray-900 to-gray-700 flex flex-col items-center gap-2 rounded-xl p-2 relative group ransition"
+                  custom={index}
+                  initial="hidden"
+                  animate="visible"
+                  variants={itemVariants}
+                >
+                  <p className="text-white font-bold">{item.name}</p>
+                  <img
+                    src={`data:image/jpeg;base64,${item.imageData}`}
+                    alt={item.name}
+                    className="w-64 h-auto object-cover rounded-lg group-hover:opacity-40 transition duration-300"
+                  />
+                  <p className="text-white font-bold">$ {item.price}</p>
+                  <button
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-900 border-2 border-red-500 
+                    text-gray-300 font-bold py-2 px-4 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 hover:bg-red-500 hover:text-white"
+                    onClick={() => {
+                      handleSellItem(item.id);
+                      setUserBalance(userBalance + item.price)
+                    }}
+                  >
+                    SELL
+                  </button>
+                </motion.li>
+              ))}
             </div>
           </div>
         </section>
