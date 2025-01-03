@@ -39,8 +39,8 @@ const CaseCard = ({
       <h3 className="text-white text-lg font-semibold">
         {name}
       </h3>
-      <p className="text-white">
-        {price}$
+      <p className="text-white font-bold">
+        $ {price.toFixed(2)}
       </p>
     </li>
   )

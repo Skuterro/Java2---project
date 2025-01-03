@@ -6,6 +6,7 @@ import { CasePage } from "../pages/CasePage";
 import { UserProfile } from "../pages/UserProfile";
 import { ScrollToTop } from "../providers/ScrollToTop";
 import { useAuth, AuthProvider } from "../providers/AuthProvider";
+import { UserBalanceProvider } from "../providers/UserBalanceProvider";
 
 interface ProtectedRouteProps{
   children: React.ReactNode
@@ -27,14 +28,16 @@ export const Routing = () => {
   return (
     <AuthProvider>
       <Router>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<HomePage/>}/>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/register" element={<RegisterPage/>}/>
-          <Route path="/case/:caseId" element={<CasePage/>}/>
-          <Route path="/userProfile" element={<ProtectedRoute><UserProfile/></ProtectedRoute>}/>
-        </Routes>
+        <UserBalanceProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<HomePage/>}/>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/register" element={<RegisterPage/>}/>
+            <Route path="/case/:caseId" element={<CasePage/>}/>
+            <Route path="/userProfile" element={<ProtectedRoute><UserProfile/></ProtectedRoute>}/>
+          </Routes>
+        </UserBalanceProvider>
       </Router>
     </AuthProvider>
   );

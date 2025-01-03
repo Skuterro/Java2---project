@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const loadUser = async () => {
     const token = Cookies.get("token");
-    console.log("Token:", token);
     /* DO NAPRAWIENIA. POWODUJE BLAD GDY PODA SIE NULLOWY TOKEN */
     if (token === undefined) {
       const user: User = {
