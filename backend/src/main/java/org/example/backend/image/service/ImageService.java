@@ -17,6 +17,7 @@ import java.util.zip.DataFormatException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ImageService {
 
     private final ImageRepository imageRepository;

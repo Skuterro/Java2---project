@@ -7,6 +7,7 @@ import { useAuth } from "../providers/AuthProvider";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 interface LoginUserForm {
   username: string;
@@ -14,7 +15,7 @@ interface LoginUserForm {
 }
 
 export const LoginPage = () => {
-  const { loggedUser, setLoggedUser } = useAuth();
+  const { loggedUser, setLoggedUser, loadUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,14 +38,8 @@ export const LoginPage = () => {
         }
       )
       .then((response) => {
-        const user = {
-          id: response.data.userId,
-          email: response.data.email,
-          username: response.data.name,
-          role: "user",
-          balance: response.data.balance,
-        };
-        setLoggedUser(user);
+        Cookies.set("token", response.data.token);
+        loadUser();
         navigate("/");
       })
       .catch((error) => {

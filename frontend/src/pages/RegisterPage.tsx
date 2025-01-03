@@ -28,7 +28,7 @@ export const RegisterPage = () => {
   const handleLoginClick = async ({email, password, username}: RegisterRequest) => {
     try{
       setLoading(true);
-      const response = await axios.post<RegisterResponse>(import.meta.env.VITE_REGISTER_API_URL, {
+      await axios.post<RegisterResponse>(import.meta.env.VITE_REGISTER_API_URL, {
         username,
         email,
         password
@@ -36,15 +36,6 @@ export const RegisterPage = () => {
         withCredentials: true
       });
 
-      Cookies.set("token", response.data.token, {expires: 1});
-
-      const user:User = {
-        email: response.data.email,
-        username: response.data.username,
-        role: "user",
-        balance: response.data.balance
-      };
-      setLoggedUser(user);
       navigate("/");
     }
     catch(error){

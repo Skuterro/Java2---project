@@ -13,6 +13,7 @@ export interface AuthContextType {
   loading: boolean;
   setLoggedUser: (user?: User) => void;
   handleLogout: () => void;
+  loadUser: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -20,6 +21,7 @@ export const AuthContext = createContext<AuthContextType>({
   loading: true,
   setLoggedUser: () => {},
   handleLogout: () => {},
+  loadUser: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const loadUser = async () => {
     const token = Cookies.get("token");
+    console.log("Token:", token);
     /* DO NAPRAWIENIA. POWODUJE BLAD GDY PODA SIE NULLOWY TOKEN */
     if (token === undefined) {
       const user: User = {
@@ -44,6 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return;
     }
     try {
+      console.log("Fetching user...");
       const response = await axios.get<User>(import.meta.env.VITE_VERIFY_API_URL, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -91,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedUser, loading, setLoggedUser, handleLogout }}>
+    <AuthContext.Provider value={{ loggedUser, loading, setLoggedUser, handleLogout, loadUser }}>
       {children}
     </AuthContext.Provider>
   );

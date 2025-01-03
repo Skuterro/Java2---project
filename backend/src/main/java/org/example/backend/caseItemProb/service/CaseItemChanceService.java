@@ -1,6 +1,7 @@
 package org.example.backend.caseItemProb.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.caseItemProb.model.CaseItemChance;
 import org.example.backend.caseItemProb.repository.CaseItemChanceRepository;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+
 public class CaseItemChanceService {
 
     private final CaseItemChanceRepository caseItemChanceRepository;

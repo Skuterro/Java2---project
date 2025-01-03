@@ -19,6 +19,7 @@ export const CasePage = () => {
   const winningItemId = 70;
   const [winningItem, setWinningItem] = useState<Item>();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [droppedUserItem, setDroppedUserItem] = useState();
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -39,14 +40,15 @@ export const CasePage = () => {
   const handleFetchWinningItemIndex = async() => {
     const token = Cookies.get('token');
     const response = await axios.get(
-      `${import.meta.env.VITE_CASES_API_URL}/${caseId}/open`,
+      `${import.meta.env.VITE_CASES_API_URL}/open/${caseId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    generateCaseRoll(response.data.id);
+    setDroppedUserItem(response.data.userItemId);
+    generateCaseRoll(response.data.itemId);
   }
 
   const handleFetchItems = async() => {
@@ -76,9 +78,11 @@ export const CasePage = () => {
   const itemWidth = 120
   const distance = -((winningItemId * itemWidth) - (window.innerWidth / 2 - itemWidth / 2));
 
-  const handleSellItem = async(ID: string) => {
+  const handleSellItem = async() => {
     const token = Cookies.get('token');
-    await axios.get(`http://localhost:8080/user/sell/${ID}`, {
+    console.log(token)
+    console.log(droppedUserItem);
+    await axios.get(`http://localhost:8080/useritem/${droppedUserItem}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -144,11 +148,11 @@ export const CasePage = () => {
                       }}
                     >
                       {itemCase.map((item: any) => (
-                        <div key={item.id} className="w-[120px] flex-shrink-0 flex flex-col items-center">
+                        <div key={item.id} className="w-[100px] flex-shrink-0 flex flex-col items-center">
                           <img
                             src={`data:image/jpeg;base64,${item?.image}`}
                             alt={item?.name}
-                            className="w-64 h-[120px] object-cover"
+                            className="w-64 h-[100px] object-cover"
                           />
                         </div>
                       ))}
@@ -206,7 +210,7 @@ export const CasePage = () => {
                 <button
                   className="w-[8vw] bg-green-900 font-bold text-gray-300 border-2 border-green-500 rounded-2xl p-2 hover:bg-green-500 hover:text-white transition-colors duration-300 ease-in-out"
                   onClick={() => {
-                    handleSellItem(winningItem.id);
+                    handleSellItem();
                     setIsModalVisible(false);
                     setUserBalance(userBalance + blowCase.price)
                   }}

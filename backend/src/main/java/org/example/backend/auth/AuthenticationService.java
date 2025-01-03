@@ -1,6 +1,7 @@
 package org.example.backend.auth;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
 import org.example.backend.config.JwtService;
@@ -25,6 +26,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -81,13 +83,12 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse
                 .builder()
-                .email(user.getEmail())
-                .token(jwtToken)
-                .username(user.getUsername())
-                .balance(user.getBalance())
+                .email(null)
+                .token(null)
+                .username(null)
+                .balance(null)
                 .build();
     }
 
@@ -108,15 +109,16 @@ public class AuthenticationService {
         }
 
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        var jwtToken = jwtService.generateToken(user);
 
         if(!user.isEnabled()){
             return AuthenticationResponse
                     .builder()
-                    .token(jwtToken)
+                    .token(null)
                     .status(400)
                     .build();
         }
+
+        var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse
                 .builder()

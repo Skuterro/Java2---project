@@ -2,6 +2,7 @@ package org.example.backend.dropCase.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.example.backend.UserItem.DTOS.UserItemResponse;
 import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseSaveForm;
 
@@ -16,5 +17,5 @@ public interface CaseService {
     List<Case> getAllCases(Pageable pageable);
     Case getCaseById(String id);
     List<Item> getCaseItemsByCaseId(String caseId);
-    Item openCase(String caseId, HttpServletRequest request);
+    UserItemResponse openCase(String caseId, HttpServletRequest request);
 }

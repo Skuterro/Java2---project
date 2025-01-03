@@ -12,24 +12,26 @@ import { useUserBalance } from "../providers/UserBalanceProvider";
 export const UserProfile = () => {
   const {loggedUser, handleLogout} = useAuth();
   const {userBalance, setUserBalance} = useUserBalance();
-  const [userItems, setUserItems] = useState<Item[]>([]);
+  const [userItems, setUserItems] = useState<any>([]);
   const token = Cookies.get("token");
 
   const handleFetchItems = async() => {   
-    const response = await axios.get("http://localhost:8080/user/items", {
+    const response = await axios.get("http://localhost:8080/useritem/details", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
   });
+    console.log(response.data);
     setUserItems(response.data);
   }
 
   const handleSellItem = async(ID: string) => {
-    await axios.get(`http://localhost:8080/user/sell/${ID}`, {
+    await axios.get(`http://localhost:8080/useritem/${ID}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    handleFetchItems();
   }
 
   const itemVariants = {
@@ -83,7 +85,7 @@ export const UserProfile = () => {
             <p className="text-gray-300 font-bold p-4">YOUR RECENT DROPS:</p>
             <div className="grid grid-cols-7 gap-4 list-none w-full p-2">
               {userItems.length === 0 && (<span></span>)}
-              {userItems.map((item, index) => (
+              {userItems.map((item:any, index:any) => (
                 <motion.li
                   key={item.id}
                   className="bg-gradient-to-t from-gray-900 to-gray-700 flex flex-col items-center gap-2 rounded-xl p-2 relative group ransition"
@@ -92,9 +94,9 @@ export const UserProfile = () => {
                   animate="visible"
                   variants={itemVariants}
                 >
-                  <p className="text-white font-bold">{item.name}</p>
+                  <p className="text-white font-bold">{item.itemName}</p>
                   <img
-                    src={`data:image/jpeg;base64,${item.imageData}`}
+                    src={`data:image/jpeg;base64,${item.image}`}
                     alt={item.name}
                     className="w-64 h-auto object-cover rounded-lg group-hover:opacity-40 transition duration-300"
                   />

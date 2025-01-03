@@ -21,5 +21,6 @@ public class Image {
     private String type;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] imageData;
 }
