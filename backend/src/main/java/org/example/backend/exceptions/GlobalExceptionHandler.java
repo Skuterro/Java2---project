@@ -16,32 +16,32 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<AuthenticationResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400);
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400, null, 0);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(UsernameOrPasswordNotValidException.class)
     public ResponseEntity<AuthenticationResponse> handleUserAlreadyExistsException(UsernameOrPasswordNotValidException e) {
-        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400);
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400,null, 0);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(UserNotExistException.class)
     public ResponseEntity<AuthenticationResponse> handleUserNotExist(UserNotExistException e) {
-        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  e.getMessage(), 400);
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  e.getMessage(), 400,null, 0);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(UserNotEnabledException.class)
     public ResponseEntity<AuthenticationResponse> handleUserNotEnabled(UserNotEnabledException e) {
-        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  e.getMessage(), 400);
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  e.getMessage(), 400,null, 0);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
 
     @ExceptionHandler(TokenNotValidException.class)
     public ResponseEntity<AuthenticationResponse> handleTokenNotValidException(TokenNotValidException e) {
-        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400);
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null, null, e.getMessage(), 400,null, 0);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
     //    @ExceptionHandler(Exception.class)
     public ResponseEntity<AuthenticationResponse> handleException(Exception e) {
         e.printStackTrace();
-        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  "Wystąpił błąd podczas przetwarzania żądania.", 400);
+        AuthenticationResponse response = new AuthenticationResponse(null, null, null,null,  "Wystąpił błąd podczas przetwarzania żądania.", 400,null, 0);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 

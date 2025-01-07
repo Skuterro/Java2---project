@@ -7,6 +7,7 @@ import org.apache.catalina.connector.Response;
 import org.example.backend.config.JwtService;
 import org.example.backend.email.EmailService;
 import org.example.backend.exceptions.*;
+import org.example.backend.image.service.ImageService;
 import org.example.backend.user.Role;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
@@ -34,6 +35,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final EmailService emailService;
+    private final ImageService imageService;
 
 
     public AuthenticationResponse verify(@Nonnull HttpServletRequest request){
@@ -56,7 +58,10 @@ public class AuthenticationService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotExistException("Użytkownik o podanej nazwie nie istnieje"));
 
-        return AuthenticationResponse.builder().token(jwtToken).email(user.getEmail()).username(username).balance(user.getBalance()).status(200).build();
+        return AuthenticationResponse.builder()
+                .userId(user.getId())
+                .imageId(user.getImageId())
+                .token(jwtToken).email(user.getEmail()).username(username).balance(user.getBalance()).status(200).build();
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -78,6 +83,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .balance(0f)
+                .imageId(imageService.getDefaultImage().getImageId())
                 .role(Role.USER)
                 .confirmationToken(token)
                 .build();

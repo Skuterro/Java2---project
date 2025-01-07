@@ -22,6 +22,10 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
+    public Image getDefaultImage() {
+        return imageRepository.findByName("userDefault");
+    }
+
     public String uploadImage(MultipartFile imageFile) throws IOException {
         var imageToSave = Image.builder()
                 .name(imageFile.getOriginalFilename())
@@ -34,8 +38,8 @@ public class ImageService {
     }
 
     public byte[] downloadImage(String id) {
-        Optional<Image> dbImage = imageRepository.findByImageId(id);
+        Image dbImage = imageRepository.findByImageId(id);
 
-        return dbImage.get().getImageData();
+        return dbImage.getImageData();
     }
 }

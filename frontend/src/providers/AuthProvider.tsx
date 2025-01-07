@@ -53,13 +53,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      console.log(response.data)
       const user: User = {
         email: response.data.email,
         username: response.data.username,
         role: "user",
         balance: response.data.balance,
         authenticated: true,
+        imageId: response.data.imageId,
+        userId: response.data.userId,
       };
       console.log("User fetched:", user);
       setLoggedUser(user);

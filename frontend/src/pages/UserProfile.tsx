@@ -13,6 +13,44 @@ export const UserProfile = () => {
   const {loggedUser, handleLogout} = useAuth();
   const {userBalance, setUserBalance} = useUserBalance();
   const [userItems, setUserItems] = useState<any>([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpload = (event:any) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(file); 
+    }
+  };
+
+  const handleSave = async () => {
+    if(isLoading){
+      return;
+    }
+    setIsLoading(true);
+    if (!selectedImage) {
+      alert("No image selected!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", selectedImage); // Dodaj obraz do formData
+
+    try {
+      const response = await axios.post(`http://localhost:8080/image/${loggedUser?.userId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert("Image uploaded successfully!");
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Error uploading image!");
+    }
+    setIsLoading(false);
+  };
+
   const token = Cookies.get("token");
 
   const handleFetchItems = async() => {   
@@ -56,12 +94,24 @@ export const UserProfile = () => {
           <div className="flex flex-row mt-10 mb-4 gap-4">
             <div className="flex flex-col items-center w-1/2 bg-gradient-to-t from-gray-900 to-gray-800 rounded-3xl">
               <img 
-                className="w-[50%] h-[60%] my-10"
-                src={profile_img} 
-                alt="profile photo" />
+                  className="w-[50%] h-[60%] my-10"
+                  src={`http://localhost:8080/image/${loggedUser?.imageId}`} 
+                  alt="profile photo" />
               <div className="flex flex-row justify-center gap-10">
-                <button className="w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out">UPLOAD</button>
-                <button className="w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out">SAVE</button>
+              <input
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                className="hidden"
+                onChange={handleUpload}
+              />
+              <label
+                htmlFor="file-upload"
+                className="cursor-pointer w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out"
+              >
+                UPLOAD
+              </label>                
+              <button onClick={handleSave} className="w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out">SAVE</button>
               </div>
             </div>
             <div className="flex flex-col w-1/2 bg-gradient-to-t from-gray-900 to-gray-800 rounded-3xl">

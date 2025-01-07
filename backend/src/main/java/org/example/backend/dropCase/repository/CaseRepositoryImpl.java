@@ -32,7 +32,7 @@ public class CaseRepositoryImpl implements CaseRepsitory{
     @Override
     public Case addCase(CaseSaveForm form, Double casePrice) {
 
-        Image image = imageRepositoryJpa.findByImageId(form.imageId()).orElse(null);
+        Image image = imageRepositoryJpa.findByImageId(form.imageId());
 
         CaseEntity createdCase = CaseEntity.builder()
                 .name(form.name())

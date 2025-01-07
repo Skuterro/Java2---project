@@ -3,7 +3,7 @@ package org.example.backend.user;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.backend.UserItem.model.UserItem;
+import org.example.backend.image.model.Image;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +33,8 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    String imageId;
 
     private String confirmationToken;
     private boolean enabled = false;

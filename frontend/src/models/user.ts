@@ -4,4 +4,6 @@ export interface User {
   role: string;
   balance: number;
   authenticated?: boolean;
+  imageId?: string;
+  userId?: number;
 }
