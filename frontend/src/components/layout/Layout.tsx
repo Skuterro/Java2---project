@@ -12,7 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <>
    
       <Navbar />
-      <main className="min-h-screen ">{children}</main>
+      <main className="h-80[vh] ">{children}</main>
       <Footer />
 
  </>

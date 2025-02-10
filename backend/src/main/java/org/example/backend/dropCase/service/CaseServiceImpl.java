@@ -12,15 +12,18 @@ import org.example.backend.caseItemProb.service.CaseItemChanceService;
 import org.example.backend.dropCase.model.Case;
 import org.example.backend.dropCase.model.CaseSaveForm;
 
+import org.example.backend.dropCase.repository.CaseRepositoryJpa;
 import org.example.backend.dropCase.repository.CaseRepsitory;
 import org.example.backend.item.model.Item;
 import org.example.backend.item.repository.ItemRepository;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Random;
@@ -36,6 +39,12 @@ public class CaseServiceImpl implements CaseService{
     private final CaseItemChanceRepository caseItemChanceRepository;
     private final UserRepository userRepository;
     private final UserItemService userItemService;
+
+
+    @Override
+    public Page<Case> getAllCases(Pageable pageable) {
+        return caseRepsitory.getAllCasesPage(pageable);
+    }
 
     @Override
     public ResponseEntity<String> addCase(CaseSaveForm form) {
@@ -76,10 +85,7 @@ public class CaseServiceImpl implements CaseService{
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 
-    @Override
-    public List<Case> getAllCases(Pageable pageable) {
-        return caseRepsitory.getAllCases(pageable);
-    }
+
 
     @Override
     public Case getCaseById(String id) {return caseRepsitory.getCaseById(id);}

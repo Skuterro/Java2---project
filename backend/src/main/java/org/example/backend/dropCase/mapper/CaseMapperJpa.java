@@ -35,4 +35,11 @@ public interface CaseMapperJpa {
                 .map(this::toCase)
                 .collect(Collectors.toList());
     }
+
+    default Page<Case> toCasePage(Page<CaseEntity> caseEntityPage) {
+        if (caseEntityPage == null) {
+            return Page.empty();
+        }
+        return caseEntityPage.map(this::toCase);
+    }
 }

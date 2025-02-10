@@ -75,7 +75,7 @@ export const CasePage = () => {
     setItemRoll(itemRoll);
   }
   
-  const itemWidth = 120
+  const itemWidth = 100
   const distance = -((winningItemId * itemWidth) - (window.innerWidth / 2 - itemWidth / 2));
 
   const handleSellItem = async() => {
@@ -212,7 +212,7 @@ export const CasePage = () => {
                   onClick={() => {
                     handleSellItem();
                     setIsModalVisible(false);
-                    setUserBalance(userBalance + blowCase.price)
+                    setUserBalance(userBalance + winningItem.price)
                   }}
                 >
                   SELL $ {winningItem.price}
