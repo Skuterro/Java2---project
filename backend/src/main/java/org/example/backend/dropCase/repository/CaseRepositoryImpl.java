@@ -11,6 +11,7 @@ import org.example.backend.item.mapper.ItemMapperJpa;
 import org.example.backend.item.model.Item;
 import org.example.backend.item.model.ItemEntity;
 import org.example.backend.item.repository.ItemRepositoryJpa;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ public class CaseRepositoryImpl implements CaseRepsitory{
 
     private final ImageRepository imageRepositoryJpa;
     private final ItemMapperJpa itemMapperJpa;
+
 
     @Override
     public Case addCase(CaseSaveForm form, Double casePrice) {
@@ -51,6 +53,11 @@ public class CaseRepositoryImpl implements CaseRepsitory{
     @Override
     public Case getCaseById(String id) {
         return caseMapperJpa.toCase(caseRepositoryJpa.findById(id).orElse(null));
+    }
+
+    @Override
+    public Page<Case> getAllCasesPage(Pageable pageable) {
+        return caseMapperJpa.toCasePage(caseRepositoryJpa.findAll(pageable));
     }
 
     private List<ItemEntity> mapItems(List<String>itemsIds){

@@ -36,7 +36,7 @@ export const Navbar = () => {
         <NavItem to="/Contact" text="Contact" icon={FiMessageSquare}/>
       </ul>
       <div className="flex mr-5 gap-10">
-        <button className="text-white font-bold border-2 rounded-xl bg-green-900 border-green-500 w-[80px] hover:bg-green-500 transition-colors duration-300 ease-in-out">
+        <button className="text-white font-bold border-2 rounded-xl p-2 bg-green-900 border-green-500 w-auto hover:bg-green-500 transition-colors duration-300 ease-in-out">
           $ {userBalance.toFixed(2)}        
         </button>
         <button 

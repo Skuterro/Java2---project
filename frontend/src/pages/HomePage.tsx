@@ -57,12 +57,16 @@ const CasesList = ({ children }: CasesListProps) => {
 
 export const HomePage = () => {
   const [cases, setCases] = useState<Case[]>([]);
+  const [maxPage, setMaxPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const navigate = useNavigate();
 
   const handleFetchCases = async () => {
-    const response = await axios.get(import.meta.env.VITE_CASES_API_URL);
-    setCases(response.data);
+    const response = await axios.get(import.meta.env.VITE_CASES_API_URL + `?page=${currentPage}`);
+    console.log(response.data);
+    setCases(response.data.content);
+    setMaxPage(response.data.totalPages); 
   }
 
   useEffect(() => {
@@ -70,11 +74,15 @@ export const HomePage = () => {
    
   }, []);
 
+  useEffect(() => {
+    handleFetchCases();
+  }, [currentPage]);
+
   return(
     <Layout>
       <Wrapper>
-        <section >
-          <div className="bg-black p-10">
+      <section className="flex flex-col h-[80vh] justify-between">          
+        <div className="bg-black p-10">
             <CasesList>
               {cases.length === 0 && (<span>Something went wrong...</span>)}
               {cases.map((dropCase) => (
@@ -86,6 +94,20 @@ export const HomePage = () => {
                 />
               ))}
             </CasesList>
+          </div>
+          
+          <div className="flex justify-center gap-4 mt-4">
+            <button 
+              className="bg-gradient-to-t from-gray-800 to-black rounded-2xl p-2 text-white font-bold"
+              onClick={() => currentPage > 0 && setCurrentPage(currentPage - 1)}>
+              &lt;
+            </button>
+            <button 
+              className="bg-gradient-to-t from-gray-800 to-black rounded-2xl p-2 text-white font-bold"
+              onClick={() => {maxPage > currentPage + 1 && setCurrentPage(currentPage + 1)}}
+            >
+              &gt;
+            </button>
           </div>
         </section>
       </Wrapper>
