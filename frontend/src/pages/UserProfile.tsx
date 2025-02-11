@@ -1,13 +1,13 @@
 import { Layout } from "../components/layout/Layout"
 import { useAuth } from "../providers/AuthProvider"
 import { Wrapper } from "../components/layout/Wrapper";
-import profile_img from "../images/Bez tytułu.png"
 import { useState, useEffect } from "react";
 import { Item } from "../models/item";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import { useUserBalance } from "../providers/UserBalanceProvider";
+import { useTranslation } from "react-i18next";
 
 export const UserProfile = () => {
   const {loggedUser, handleLogout} = useAuth();
@@ -15,6 +15,7 @@ export const UserProfile = () => {
   const [userItems, setUserItems] = useState<any>([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleUpload = (event:any) => {
     const file = event.target.files[0];
@@ -109,30 +110,32 @@ export const UserProfile = () => {
                 htmlFor="file-upload"
                 className="cursor-pointer w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out"
               >
-                UPLOAD
+                {t("profile.upload")}
               </label>                
-              <button onClick={handleSave} className="w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out">SAVE</button>
+              <button onClick={handleSave} className="w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out">
+                {t("profile.save")}
+              </button>
               </div>
             </div>
             <div className="flex flex-col w-1/2 bg-gradient-to-t from-gray-900 to-gray-800 rounded-3xl">
               <ul className="ml-10 mt-10 text-2xl text-gray-300 font-bold">
-                <li className="mb-8">USERNAME: {loggedUser?.username}</li>
-                <li className="mb-8">EMAIL: {loggedUser?.email}</li>
-                <li className="mb-8">CASES OPENED: </li>
-                <li className="mb-8">ALL-TIME PROFIT: </li>
+                <li className="mb-8">{t("profile.username")}: {loggedUser?.username}</li>
+                <li className="mb-8">{t("profile.email")}: {loggedUser?.email}</li>
+                <li className="mb-8">{t("profile.casesOpened")}: </li>
+                <li className="mb-8">{t("profile.allTimeProfit")}: </li>
               </ul>
               <div className="flex justify-center items-center h-full">
                 <button 
                   className="w-[8vw] font bg-red-900 font-bold text-gray-300 border-2 border-red-500 rounded-2xl p-2 hover:bg-red-500 hover:text-white transition-colors duration-300 ease-in-out"
                   onClick={handleLogout}
                 >
-                  LOGOUT
+                  {t("profile.logout")}
                 </button>
               </div>
             </div>
           </div>
           <div className="bg-gradient-to-t from-gray-900 to-gray-800 w-full flex flex-col rounded-3xl ">
-            <p className="text-gray-300 font-bold p-4">YOUR RECENT DROPS:</p>
+            <p className="text-gray-300 font-bold p-4">{t("profile.recentDrops")}:</p>
             <div className="grid grid-cols-7 gap-4 list-none w-full p-2">
               {userItems.length === 0 && (<span></span>)}
               {userItems.map((item:any, index:any) => (
@@ -159,7 +162,7 @@ export const UserProfile = () => {
                       setUserBalance(userBalance + item.price)
                     }}
                   >
-                    SELL
+                    {t("profile.sell")}
                   </button>
                 </motion.li>
               ))}

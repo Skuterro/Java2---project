@@ -8,8 +8,10 @@ import { Item } from "../models/item";
 import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { useUserBalance } from "../providers/UserBalanceProvider";
+import { useTranslation } from "react-i18next"; 
 
 export const CasePage = () => {
+  const { t } = useTranslation();
   const{ caseId } = useParams();
   const {userBalance, setUserBalance} = useUserBalance();
   const [blowCase, setBlowCase] = useState<Case>();
@@ -126,7 +128,7 @@ export const CasePage = () => {
                       setUserBalance(userBalance - blowCase.price)
                     }}
                   >
-                    OPEN $ {blowCase?.price.toFixed(2)}
+                    {t("casePage.open")} $ {blowCase?.price.toFixed(2)}
                   </button>
                 ) : (
                   <div className="relative w-full h-full overflow-hidden my-2">
@@ -166,11 +168,11 @@ export const CasePage = () => {
                 ></p>
               </>
             ) : (
-              <p className="text-white">Loading...</p> // Komunikat ładowania, gdy blowCase jest undefined
+              <p className="text-white">{t("casePage.loading")}</p>
             )}
           </div>
           <ul className="grid grid-cols-7 gap-4 list-none w-full mb-12">
-            {caseItems.length === 0 && <span>Something went wrong...</span>}
+            {caseItems.length === 0 && <span>{t("casePage.somethingWentWrong")}</span>}
             {caseItems.map((item, index) => (
               <motion.li
                 key={item.id}
@@ -193,7 +195,7 @@ export const CasePage = () => {
         {isModalVisible && winningItem && blowCase && (
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-gradient-to-t from-gray-900 to-gray-800 flex flex-col items-center rounded-2xl p-5">
-              <h2 className="text-xl font-bold text-white mb-4">CONGRATULATIONS!</h2>
+              <h2 className="text-xl font-bold text-white mb-4">{t("casePage.congratulations")}</h2>
               <img
                 src={`data:image/jpeg;base64,${winningItem.imageData}`}
                 alt={winningItem.name}
@@ -205,7 +207,7 @@ export const CasePage = () => {
                   className="w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out"
                   onClick={() => setIsModalVisible(false)}
                 >
-                  CLOSE
+                  {t("casePage.close")}
                 </button>
                 <button
                   className="w-[8vw] bg-green-900 font-bold text-gray-300 border-2 border-green-500 rounded-2xl p-2 hover:bg-green-500 hover:text-white transition-colors duration-300 ease-in-out"
@@ -215,7 +217,7 @@ export const CasePage = () => {
                     setUserBalance(userBalance + winningItem.price)
                   }}
                 >
-                  SELL $ {winningItem.price}
+                  {t("casePage.sell")} $ {winningItem.price}
                 </button>
               </div>
             </div>
