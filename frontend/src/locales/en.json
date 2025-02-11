@@ -27,7 +27,38 @@
     "password": "Password",
     "button": "Login",
     "serverError": "Server error:"
-  }
+    },
+
+    "profile": {
+      "profilePhoto": "Profile Photo",
+      "upload": "Upload",
+      "save": "Save",
+      "username": "Username",
+      "email": "Email",
+      "casesOpened": "Cases Opened",
+      "allTimeProfit": "All-Time Profit",
+      "logout": "Logout",
+      "recentDrops": "Your Recent Drops",
+      "sell": "Sell",
+      "noImageSelected": "No image selected!",
+      "uploadSuccess": "Image uploaded successfully!",
+      "uploadError": "Error uploading image!"
+    },
+
+    "homepage": {
+      "loading": "Loading...",
+      "fetchError": "An error occurred while fetching cases.",
+      "noCases": "No available cases."
+    },
+
+    "casePage": {
+      "loading": "Loading...",
+      "open": "OPEN",
+      "congratulations": "CONGRATULATIONS!",
+      "close": "CLOSE",
+      "sell": "SELL",
+      "somethingWentWrong": "Something went wrong..."
+    }
   }
   
   

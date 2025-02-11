@@ -27,6 +27,37 @@
       "password": "Hasło",
       "button": "Zaloguj się",
       "serverError": "Błąd serwera:"
+    },
+
+    "profile": {
+      "upload": "Prześlij",
+      "save": "Zapisz",
+      "username": "Nazwa Użytkownika",
+      "email": "Email",
+      "casesOpened": "Otwarte Skrzynki",
+      "allTimeProfit": "Zysk Całkowity",
+      "logout": "Wyloguj",
+      "recentDrops": "Twoje Ostatnie Dropy",
+      "sell": "Sprzedaj",
+      "noImageSelected": "Nie wybrano obrazu!",
+      "uploadSuccess": "Obraz przesłany pomyślnie!",
+      "uploadError": "Błąd przesyłania obrazu!"
+    },
+
+  
+    "homepage": {
+      "loading": "Ładowanie...",
+      "fetchError": "Wystąpił błąd podczas pobierania skrzynek.",
+      "noCases": "Brak dostępnych skrzynek."
+    },
+    
+    "casePage": {
+      "loading": "Ładowanie...",
+      "open": "OTWÓRZ",
+      "congratulations": "GRATULACJE!",
+      "close": "ZAMKNIJ",
+      "sell": "SPRZEDAJ",
+      "somethingWentWrong": "Coś poszło nie tak..."
     }
   }
     
