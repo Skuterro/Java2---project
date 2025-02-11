@@ -1,0 +1,33 @@
+{
+    "create_case": "Create Case",
+    "cases": "Cases",
+    "contact": "Contact",
+    
+    "register": {
+      "welcome": "Welcome!",
+      "haveAccount": "You have an account?",
+      "signIn": "Sign in!",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "button": "Register",
+      "loading": "Loading..."
+    },
+    "validation": {
+      "usernameRequired": "Username is required",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required"
+    },
+
+    "login": {
+    "welcome": "Welcome back!",
+    "noAccount": "Don't have an account yet?",
+    "signUp": "Sign up!",
+    "username": "Username",
+    "password": "Password",
+    "button": "Login",
+    "serverError": "Server error:"
+  }
+  }
+  
+  

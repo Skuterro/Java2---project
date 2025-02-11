@@ -11,9 +11,6 @@ export const CaseOpeningPage = () => {
     }
     ,[]);
 
- 
-
-    //CASE ID POBRANE Z LINKU JA TU NA SZTYWNO WPISALEM
     const caseId = "33a7150f-3f90-409b-a21b-83a3593c63ae";
 
     const [isAnimating, setIsAnimating] = useState(false);

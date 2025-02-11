@@ -1,0 +1,33 @@
+{
+    "create_case": "Stwórz Skrzynkę",
+    "cases": "Skrzynki",
+    "contact": "Kontakt",
+    
+    "register": {
+      "welcome": "Witaj!",
+      "haveAccount": "Masz konto?",
+      "signIn": "Zaloguj się!",
+      "username": "Nazwa użytkownika",
+      "email": "E-mail",
+      "password": "Hasło",
+      "button": "Zarejestruj się",
+      "loading": "Ładowanie..."
+    },
+    "validation": {
+      "usernameRequired": "Nazwa użytkownika jest wymagana",
+      "emailRequired": "E-mail jest wymagany",
+      "passwordRequired": "Hasło jest wymagane"
+    },
+
+    "login": {
+      "welcome": "Witaj ponownie!",
+      "noAccount": "Nie masz jeszcze konta?",
+      "signUp": "Zarejestruj się!",
+      "username": "Nazwa użytkownika",
+      "password": "Hasło",
+      "button": "Zaloguj się",
+      "serverError": "Błąd serwera:"
+    }
+  }
+    
+  

@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 interface LoginUserForm {
   username: string;
@@ -17,6 +18,7 @@ interface LoginUserForm {
 export const LoginPage = () => {
   const { loggedUser, setLoggedUser, loadUser } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (loggedUser != undefined && loggedUser.authenticated == true) {
@@ -43,27 +45,27 @@ export const LoginPage = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.error("Błąd serwera:", error.response.data.message);
+        console.error(t("login.serverError"), error.response.data.message);
       });
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Y]Username required"),
-    password: Yup.string().required("Password is required"),
+    username: Yup.string().required(t("validation.usernameRequired")),
+    password: Yup.string().required(t("validation.passwordRequired")),
   });
 
   return (
     <Layout>
       <section className="bg-black h-[80vh] flex items-center justify-center">
         <div className="bg-gradient-to-t from-gray-900 to-gray-800 flex flex-col items-center gap-8 shadow-lg rounded-xl p-12">
-          <h2 className="text-white font-bold text-2xl">Welcome back!</h2>
+          <h2 className="text-white font-bold text-2xl">{t("login.welcome")}</h2>
           <div className="flex">
-            <p className="text-white mr-2">Don't have an account yet?</p>
+            <p className="text-white mr-2">{t("login.noAccount")}</p>
             <a
               href="/register"
               className="text-purple-600 hover:text-purple-500 transition-colors duration-300 ease-in-out"
             >
-              Sign up!
+              {t("login.signUp")}
             </a>
           </div>
           <Formik
@@ -78,7 +80,7 @@ export const LoginPage = () => {
                   <Field
                     name="username"
                     type="username"
-                    placeholder="Username"
+                    placeholder={t("login.username")}
                     className="bg-gray-800 p-2 border-none outline-none w-full placeholder-white text-white"
                   />
                 </div>
@@ -87,7 +89,7 @@ export const LoginPage = () => {
                   <Field
                     name="password"
                     type="password"
-                    placeholder="Password"
+                    placeholder={t("login.password")}
                     className="bg-gray-800 p-2 border-none outline-none w-full placeholder-white text-white"
                   />
                 </div>
@@ -95,7 +97,7 @@ export const LoginPage = () => {
                   type="submit"
                   className="p-2 bg-purple-900 border-2 border-purple-500 text-white font-bold rounded-xl hover:bg-purple-500 transition-colors duration-300 ease-in-out"
                 >
-                  Login
+                  {t("login.button")}
                 </button>
               </div>
             </Form>

@@ -6,20 +6,21 @@ import { IconType } from "react-icons";
 import { FiBox } from "react-icons/fi";
 import { FiMessageSquare } from "react-icons/fi";
 import { IoCreateOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
-import { useAuth } from "../../providers/AuthProvider";
 import { useUserBalance } from "../../providers/UserBalanceProvider";
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
   const { userBalance } = useUserBalance(); 
-
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate("/userProfile");
   }
 
-
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <nav className="bg-black w-full flex flex-row items-center justify-between h-[8vh] border-b-2 border-gray-500 relative">
@@ -31,14 +32,21 @@ export const Navbar = () => {
         </div>
       </div>
       <ul className="absolute left-1/2 transform -translate-x-1/2 flex justify-center items-center text-lg gap-[20vh]">
-        <NavItem to="/CreateCase" text="Create Case" icon={IoCreateOutline} />
-        <NavItem to="/" text="Cases" icon={FiBox}/>
-        <NavItem to="/Contact" text="Contact" icon={FiMessageSquare}/>
+        <NavItem to="/CreateCase" text={t("create_case")} icon={IoCreateOutline} />
+        <NavItem to="/" text={t("cases")} icon={FiBox}/>
+        <NavItem to="/Contact" text={t("contact")} icon={FiMessageSquare}/>
       </ul>
       <div className="flex mr-5 gap-10">
         <button className="text-white font-bold border-2 rounded-xl p-2 bg-green-900 border-green-500 w-auto hover:bg-green-500 transition-colors duration-300 ease-in-out">
           $ {userBalance.toFixed(2)}        
         </button>
+        <button 
+          className="text-3xl text-white hover:text-purple-500 transition-colors duration-300 ease-in-out"
+          onClick={() => changeLanguage(i18n.language === "en" ? "pl" : "en")}
+        >
+          🌐
+        </button>
+
         <button 
           className="text-3xl text-white hover:text-purple-500 transition-colors duration-300 ease-in-out" 
           onClick={handleNavigate}
@@ -55,7 +63,6 @@ interface NavItemProps {
   text: string;
   icon: IconType;
 }
-
 
 export const NavItem = ({to, text, icon:Icon}: NavItemProps) => {
   return (
