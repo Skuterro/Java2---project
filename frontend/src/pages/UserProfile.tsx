@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import { useUserBalance } from "../providers/UserBalanceProvider";
 import { useTranslation } from "react-i18next";
+import { format } from "date-fns";
 
 export const UserProfile = () => {
   const {loggedUser, handleLogout} = useAuth();
@@ -54,12 +55,12 @@ export const UserProfile = () => {
 
   const token = Cookies.get("token");
 
-  const handleFetchItems = async() => {   
-    const response = await axios.get("http://localhost:8080/useritem/details", {
+  const handleFetchItems = async (sortBy: string = "createdAt", direction: string = "desc") => {   
+    const response = await axios.get(`http://localhost:8080/useritem/details?sortBy=${sortBy}&direction=${direction}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-  });
+    });
     console.log(response.data);
     setUserItems(response.data);
   }
@@ -91,7 +92,7 @@ export const UserProfile = () => {
   return(
     <Layout>
       <Wrapper>
-        <section>
+        <section className="mb-10">
           <div className="flex flex-row mt-10 mb-4 gap-4">
             <div className="flex flex-col items-center w-1/2 bg-gradient-to-t from-gray-900 to-gray-800 rounded-3xl">
               <img 
@@ -108,7 +109,7 @@ export const UserProfile = () => {
               />
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out"
+                className="text-center cursor-pointer w-[8vw] bg-purple-900 font-bold text-gray-300 border-2 border-purple-500 rounded-2xl p-2 hover:bg-purple-500 hover:text-white transition-colors duration-300 ease-in-out"
               >
                 {t("profile.upload")}
               </label>                
@@ -135,13 +136,39 @@ export const UserProfile = () => {
             </div>
           </div>
           <div className="bg-gradient-to-t from-gray-900 to-gray-800 w-full flex flex-col rounded-3xl ">
-            <p className="text-gray-300 font-bold p-4">{t("profile.recentDrops")}:</p>
+          <div className="flex gap-4 mb-4 w-full justify-center">
+            <button
+              onClick={() => handleFetchItems("createdAt", "asc")}
+              className="bg-blue-800 text-white p-2 rounded"
+            >
+              Sortuj po dacie (rosnąco)
+            </button>
+            <button
+              onClick={() => handleFetchItems("createdAt", "desc")}
+              className="bg-blue-800 text-white p-2 rounded"
+            >
+              Sortuj po dacie (malejąco)
+            </button>
+            <button
+              onClick={() => handleFetchItems("price", "asc")}
+              className="bg-green-800 text-white p-2 rounded"
+            >
+              Sortuj po cenie (rosnąco)
+            </button>
+            <button
+              onClick={() => handleFetchItems("price", "desc")}
+              className="bg-green-800 text-white p-2 rounded"
+            >
+              Sortuj po cenie (malejąco)
+            </button>
+          </div>
+            <div className="w-full flex justify-center"><h2 className="text-gray-300 font-bold p-4">{t("profile.recentDrops")}</h2></div>
             <div className="grid grid-cols-7 gap-4 list-none w-full p-2">
               {userItems.length === 0 && (<span></span>)}
               {userItems.map((item:any, index:any) => (
                 <motion.li
                   key={item.id}
-                  className="bg-gradient-to-t from-gray-900 to-gray-700 flex flex-col items-center gap-2 rounded-xl p-2 relative group ransition"
+                  className="bg-gradient-to-t from-gray-900 to-gray-700 flex flex-col items-center gap-2 rounded-xl p-2 relative group ransition justify-between"
                   custom={index}
                   initial="hidden"
                   animate="visible"
@@ -153,8 +180,12 @@ export const UserProfile = () => {
                     alt={item.name}
                     className="w-64 h-auto object-cover rounded-lg group-hover:opacity-40 transition duration-300"
                   />
-                  <p className="text-white font-bold">$ {item.price}</p>
-                  <button
+                  <div className="flex flex-col justify-center items-center">
+                    <p className="text-green-400 font-bold">$ {item.price}</p>
+                    <p className="text-white font-bold">{new Date(item.createdAt).toISOString().split("T")[0]}</p>
+                    <p className="text-white font-bold">{format(new Date(item.createdAt), "HH:mm")}</p>
+                  </div>
+                   <button
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-900 border-2 border-red-500 
                     text-gray-300 font-bold py-2 px-4 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 hover:bg-red-500 hover:text-white"
                     onClick={() => {

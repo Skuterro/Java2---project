@@ -15,10 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
@@ -49,10 +50,30 @@ public class UserItemService {
         return userItemRepository.save(userItem);
     }
 
-    public ResponseEntity<List<UserItemDTO>> getUserItems(@Nonnull HttpServletRequest request) {
+    public ResponseEntity<List<UserItemDTO>> getUserItems(@Nonnull HttpServletRequest request,
+                                                          String sortBy,
+                                                          String direction) {
         User user = (User) request.getAttribute("currentUser");
         List<UserItem> userItems = userItemRepository.findByUserId(user.getId());
 
+        // Sortowanie "w pamięci" wg sortBy i direction
+        if(Objects.equals(sortBy, "price")) {
+            if ("asc".equalsIgnoreCase(direction)) {
+                userItems.sort(Comparator.comparing(ui -> ui.getItem().getPrice()));
+            } else {
+                userItems.sort(Comparator.comparing(ui -> ui.getItem().getPrice()));
+                Collections.reverse(userItems);
+            }
+        }
+        else{
+            if ("asc".equalsIgnoreCase(direction)) {
+                userItems.sort(Comparator.comparing(UserItem::getCreatedAt));
+            } else {
+                userItems.sort(Comparator.comparing(UserItem::getCreatedAt).reversed());
+            }
+        }
+
+        // Mapowanie encji do DTO
         List<UserItemDTO> response = userItems.stream()
                 .map(userItem -> UserItemDTO.builder()
                         .id(userItem.getId())
@@ -66,5 +87,6 @@ public class UserItemService {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
 
 }
