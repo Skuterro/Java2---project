@@ -122,8 +122,8 @@ export const UserProfile = () => {
               <ul className="ml-10 mt-10 text-2xl text-gray-300 font-bold">
                 <li className="mb-8">{t("profile.username")}: {loggedUser?.username}</li>
                 <li className="mb-8">{t("profile.email")}: {loggedUser?.email}</li>
-                <li className="mb-8">{t("profile.casesOpened")}: </li>
-                <li className="mb-8">{t("profile.allTimeProfit")}: </li>
+                <li className="mb-8">{t("profile.casesOpened")}: {loggedUser?.cases_opened}</li>
+                <li className="mb-8">{t("profile.allTimeProfit")}: {loggedUser?.profit}</li>
               </ul>
               <div className="flex justify-center items-center h-full">
                 <button 

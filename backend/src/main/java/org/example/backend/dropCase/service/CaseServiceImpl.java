@@ -106,6 +106,8 @@ public class CaseServiceImpl implements CaseService{
         }
 
         user.setBalance((float) (user.getBalance() - blowCase.price()));
+        user.setCase_opened(user.getCase_opened() + 1);
+
         userRepository.save(user);
 
         List<CaseItemChance> itemProbs = caseItemChanceRepository.findByCaseEntity_Id(caseId);
@@ -118,6 +120,7 @@ public class CaseServiceImpl implements CaseService{
             cumulativeProbability += itemProbs.get(i).getChance();
             if(randomValue < cumulativeProbability){
                 UserItem userItem = userItemService.addItemToUser(user, itemProbs.get(i).getItemEntity());
+                user.setProfit(user.getProfit() - blowCase.price() + itemProbs.get(i).getCaseEntity().getPrice());
                 return UserItemResponse.builder().userItemId(userItem.getId()).itemId(userItem.getItem().getId()).build();
 
             }
