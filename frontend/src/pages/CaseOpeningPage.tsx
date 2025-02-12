@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "../components/layout/Layout"
 import { motion } from 'framer-motion';
 import axios from "axios";
+import { useRef } from "react";
 
 
 export const CaseOpeningPage = () => {
@@ -59,6 +60,7 @@ export const CaseOpeningPage = () => {
     const itemWidth = 100; // np. 100px na przedmiot
 
     const distance = -((winningItemId * itemWidth) - (window.innerWidth / 2 - itemWidth / 2));
+    const containerRef = useRef<HTMLDivElement>(null);
 
     
     return(

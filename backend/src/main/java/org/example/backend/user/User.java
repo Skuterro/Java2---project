@@ -36,6 +36,8 @@ public class User implements UserDetails {
 
     String imageId;
 
+    String refreshToken;
+
     private String confirmationToken;
     private boolean enabled = false;
 

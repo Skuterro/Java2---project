@@ -19,8 +19,12 @@ public class UserItemController {
     private final UserItemService userItemService;
 
     @GetMapping("/details")
-    public ResponseEntity<List<UserItemDTO>> getUserItems(@Nonnull HttpServletRequest request){
-        return userItemService.getUserItems(request);
+    public ResponseEntity<List<UserItemDTO>> getUserItems(
+            @Nonnull HttpServletRequest request,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false, defaultValue = "desc") String direction
+    ) {
+        return userItemService.getUserItems(request, sortBy, direction);
     }
 
     @GetMapping("/{id}")

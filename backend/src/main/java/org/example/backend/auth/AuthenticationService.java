@@ -1,9 +1,11 @@
 package org.example.backend.auth;
+
 import jakarta.annotation.Nonnull;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.connector.Response;
 import org.example.backend.config.JwtService;
 import org.example.backend.email.EmailService;
 import org.example.backend.exceptions.*;
@@ -15,14 +17,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CookieValue;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,50 +32,49 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
     private final EmailService emailService;
     private final ImageService imageService;
 
-
-    public AuthenticationResponse verify(@Nonnull HttpServletRequest request){
-
+    public AuthenticationResponse verify(@Nonnull HttpServletRequest request) {
         final String authHeader = request.getHeader("Authorization");
         final String jwtToken;
-        final String username;
 
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return AuthenticationResponse.builder().status(400).build();
         }
 
         jwtToken = authHeader.substring(7);
-        username = jwtService.extractUsername(jwtToken);
+        String username = jwtService.extractUsername(jwtToken);
 
-        if(username == null){
+        if (username == null) {
             throw new TokenNotValidException("Błędny token.");
         }
 
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotExistException("Użytkownik o podanej nazwie nie istnieje"));
+                .orElseThrow(() -> new UserNotExistException("Użytkownik nie istnieje"));
 
         return AuthenticationResponse.builder()
                 .userId(user.getId())
                 .imageId(user.getImageId())
-                .token(jwtToken).email(user.getEmail()).username(username).balance(user.getBalance()).status(200).build();
+                .token(jwtToken)
+                .email(user.getEmail())
+                .username(username)
+                .balance(user.getBalance())
+                .status(200)
+                .build();
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
-        if(userRepository.existsByEmail(request.getEmail())){
-            throw new UserAlreadyExistsException("Uzytkownik pod takim adresem email juz istnieje.");
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new UserAlreadyExistsException("Użytkownik o takim email już istnieje.");
         }
-        if(userRepository.existsByUsername(request.getUsername())){
-            throw new UserAlreadyExistsException("Uzytkownik pod takim adresem email juz istnieje.");
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new UserAlreadyExistsException("Użytkownik o takiej nazwie już istnieje.");
         }
 
         String token = UUID.randomUUID().toString();
-
         String confirmationLink = "http://localhost:8080/api/v1/auth/confirm?token=" + token;
-        emailService.sendEmail(request.getEmail(), "Potwierdzenie rejestracji",
-                "Kliknij w link, aby potwierdzić swój email: " + confirmationLink);
+        emailService.sendEmail(request.getEmail(), "Potwierdzenie rejestracji", "Kliknij w link, aby potwierdzić email: " + confirmationLink);
 
         var user = User.builder()
                 .email(request.getEmail())
@@ -89,16 +87,10 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
 
-        return AuthenticationResponse
-                .builder()
-                .email(null)
-                .token(null)
-                .username(null)
-                .balance(null)
-                .build();
+        return AuthenticationResponse.builder().status(200).build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -106,30 +98,61 @@ public class AuthenticationService {
                             request.getPassword()
                     )
             );
-        }
-        catch (DisabledException exception){
-            throw new UserNotEnabledException("User is not enabled.");
-        }
-        catch(BadCredentialsException exception){
-            throw new UsernameOrPasswordNotValidException("Username or password is incorrect.");
+        } catch (DisabledException exception) {
+            throw new UserNotEnabledException("Użytkownik nie jest aktywowany.");
+        } catch (BadCredentialsException exception) {
+            throw new UsernameOrPasswordNotValidException("Nieprawidłowa nazwa użytkownika lub hasło.");
         }
 
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        var user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("Użytkownik nie znaleziony"));
 
-        if(!user.isEnabled()){
-            return AuthenticationResponse
-                    .builder()
-                    .token(null)
-                    .status(400)
-                    .build();
+        if (!user.isEnabled()) {
+            return AuthenticationResponse.builder().status(400).build();
         }
 
-        var jwtToken = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
 
-        return AuthenticationResponse
-                .builder()
-                .token(jwtToken)
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+
+        response.addHeader("Set-Cookie", "refreshToken=" + refreshToken + "; HttpOnly; Secure; Path=/api/auth/refresh; Max-Age=604800");
+
+        return AuthenticationResponse.builder()
+                .token(accessToken)
                 .status(200)
                 .build();
+    }
+
+    public AuthenticationResponse refresh(@CookieValue(name = "refreshToken", required = false) String refreshToken) {
+        if (refreshToken == null) {
+            throw new TokenNotValidException("Brak refresh tokena.");
+        }
+
+        String username = jwtService.extractUsername(refreshToken);
+        if (username == null) {
+            throw new TokenNotValidException("Błędny refresh token.");
+        }
+
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Użytkownik nie znaleziony"));
+
+        if (!refreshToken.equals(user.getRefreshToken())) {
+            throw new TokenNotValidException("Refresh token nie pasuje.");
+        }
+
+        String newAccessToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(newAccessToken)
+                .status(200)
+                .build();
+    }
+
+    public void logout(User user, HttpServletResponse response) {
+        user.setRefreshToken(null);
+        userRepository.save(user);
+
+        response.addHeader("Set-Cookie", "refreshToken=; HttpOnly; Secure; Path=/api/auth/refresh; Max-Age=0");
     }
 }

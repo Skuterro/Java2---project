@@ -2,6 +2,8 @@ package org.example.backend.UserItem.DTOS;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor

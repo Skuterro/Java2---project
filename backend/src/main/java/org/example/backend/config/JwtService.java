@@ -26,7 +26,14 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
-
+    public String generateRefreshToken(UserDetails userDetails) {
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 dni
+                .signWith(SignatureAlgorithm.HS256, JWT_KEY)
+                .compact();
+    }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
          return Jwts.builder()
                  .addClaims(extraClaims)
