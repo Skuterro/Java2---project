@@ -84,6 +84,8 @@ public class AuthenticationService {
                 .imageId(imageService.getDefaultImage().getImageId())
                 .role(Role.USER)
                 .confirmationToken(token)
+                .cases_opened(0)
+                .profit(0.0)
                 .build();
         userRepository.save(user);
 

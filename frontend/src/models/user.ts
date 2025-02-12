@@ -6,4 +6,6 @@ export interface User {
   authenticated?: boolean;
   imageId?: string;
   userId?: number;
+  cases_opened?: number;
+  profit?: number;
 }

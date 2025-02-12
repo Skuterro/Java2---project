@@ -66,6 +66,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         authenticated: true,
         imageId: response.data.imageId,
         userId: response.data.userId,
+        cases_opened: response.data.cases_opened,
+        profit: response.data.profit
       };
 
       console.log("User fetched:", user);
