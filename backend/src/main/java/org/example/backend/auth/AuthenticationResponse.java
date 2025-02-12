@@ -17,5 +17,7 @@ public class AuthenticationResponse {
     private String message;
     private Integer status;
     private String imageId;
+    private Integer cases_opened;
+    private Double profit;
     private int userId;
 }
